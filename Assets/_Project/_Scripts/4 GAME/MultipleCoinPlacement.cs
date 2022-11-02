@@ -113,7 +113,10 @@ public class MultipleCoinPlacement : PlaceAtLocations
         longitudeApi = playerLocation.Longitude;
 
         // AF events
+
         AppsFlyer.recordLocation(playerLocation.Latitude, playerLocation.Longitude);
+
+        
 
 
         if (playerLocation == null)
@@ -189,6 +192,8 @@ public class MultipleCoinPlacement : PlaceAtLocations
     void PopulateCoins(ServerCoinData coinsData)
     {
         //OnCoinStartIterating();
+
+
         if (serverRawData == null) return;
         if (!CanPlaceCoins(gameMode)) return;
 
