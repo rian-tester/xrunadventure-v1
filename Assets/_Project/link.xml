@@ -1,0 +1,7 @@
+<linker>
+    <assembly fullname="AssemblyCSharp">
+        <type fullname="KetentuanDataManager">
+            <method signature="System.Void .ctor()"/>
+        </type>
+    </assembly>
+</linker>
