@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using ARLocation;
 using System;
 
 public class MultipleMapPlacement : MonoBehaviour
@@ -11,9 +8,9 @@ public class MultipleMapPlacement : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] LayerMask mapLayer;
 
-    MultipleCoinPlacement.ServerCoinData serverCoinData;
+    GameController.AllCoinData serverCoinData;
 
-    public void PopulateMap(MultipleCoinPlacement.ServerCoinData serverData)
+    public void PopulateMap(GameController.AllCoinData serverData)
     {
         serverCoinData = serverData;
         

@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
 
     void Catch()
     {
+        if (!arCamera.isActiveAndEnabled) return;
         Ray ray;
 
         if (Input.touchCount > 0)

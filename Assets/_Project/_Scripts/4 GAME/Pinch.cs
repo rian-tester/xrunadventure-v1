@@ -2,14 +2,8 @@ using ARFoundationRemote;
 using ARLocation;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Pinch : MonoBehaviour
@@ -22,7 +16,6 @@ public class Pinch : MonoBehaviour
     [SerializeField] RawImage mapRawImage;
     private MapControl mapControl;
     private OnlineMaps map;
-    private OnlineMapsControlBase mapHandler;
     private Coroutine zoomCoroutine;
     public event Action OnMapZoomChanged;
 
@@ -43,7 +36,6 @@ public class Pinch : MonoBehaviour
     private void Start()
     {
         map = OnlineMaps.instance;
-        mapHandler = OnlineMapsControlBase.instance;
         mapController.OnMapSetup += SetupControl;
     }
 

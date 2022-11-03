@@ -27,52 +27,55 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
     [SerializeField] GameObject arSession;
     [SerializeField] GameObject arSessionOrigin;
+    [SerializeField] MultipleCoinPlacement multipleCoinPlacement;
+    [SerializeField] GameObject environmentLighting;
     
     [SerializeField] TMP_Text loadingText;
     [SerializeField] GameObject loadingPanel;
-
-    public AllCoinData serverRawData;
+    [SerializeField]
+    AllCoinData serverRawData = new AllCoinData();
 
     int spawnAmount = 0;
-    bool gameIsOn;
+    double playerLatitude;
+    double playerLongitude;
+
     [SerializeField] GameMode gameMode = GameMode.Map;
 
     public event Action OnModeChanged;
     public event Action<AllCoinData, Location> OnAllCoinDataRetreived;
     public event Action OnAllCoinDataFailed;
-    private void Awake()
+    private void Start()
     {
         anim = GetComponent<Animation>();
         gameMode = GameMode.None;
         loadingPanel.SetActive(true);
+        loadingText.text = "Getting your location for server call";
         ARLocationProvider.Instance.OnEnabled.AddListener(StartCallServer);
+        print("listener added");
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Empty on purpose
-    }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        gameIsOn = !gameIsOn;
-        if (gameIsOn)
+        
+        if (gameMode == GameMode.Map || gameMode == GameMode.None)
         {
             gameMode = GameMode.Catch;
             Animate();
             ChangeButtonSprite();
             ChangeGameMode(gameMode);
 
-
-            OnModeChanged();
         }
-        else
+        else if (gameMode == GameMode.Catch || gameMode == GameMode.None)
         {
             gameMode = GameMode.Map;
             Animate();
             ChangeButtonSprite();
             ChangeGameMode(gameMode);
-
-            OnModeChanged();
         }
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // Empty on purpose
     }
     public GameMode GetGameMode()
     {
@@ -80,11 +83,11 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     }
     private void ChangeButtonSprite()
     {
-        if (gameIsOn)
+        if (gameMode == GameMode.Catch)
         {
             buttonImage.sprite = Resources.Load<Sprite>("GameMode/Cam");
         }
-        else
+        else if (gameMode == GameMode.Map)
         {
             
             buttonImage.sprite = Resources.Load<Sprite>("GameMode/Map");
@@ -93,12 +96,16 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
     private void Animate()
     {
-        if (gameIsOn)
+        if (gameMode == GameMode.None)
+        {
+            return;
+        }
+        else if (gameMode == GameMode.Catch)
         {
             
             anim.Play("ToCatchMode");
         }
-        else
+        else if(gameMode == GameMode.Map)
         {
             anim.Play("ToMapMode");
         }
@@ -115,29 +122,53 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 mapLighting.gameObject.SetActive(true);
 
                 //Catch
+                multipleCoinPlacement.UnPopulateCoin();
                 arSession.SetActive(false);
                 arSessionOrigin.SetActive(false);
-
-                    break;
+                environmentLighting.gameObject.SetActive(false);
+                
+                break;
                 case GameMode.Catch:
+                // Catch
+                arSession.SetActive(true);
+                arSessionOrigin.SetActive(true);
+                multipleCoinPlacement.PopulateCoins();
+                environmentLighting.gameObject.SetActive(true);
+
                 // Map
                 mapImage.gameObject.SetActive(false);
                 MapItems.gameObject.SetActive(false);
                 mapLighting.gameObject.SetActive(false);
 
-                // Catch
-                arSession.SetActive(true);
-                arSessionOrigin.SetActive(true);
+                
+                break;
+
+            case GameMode.None:
+                //
                 break;
 
         }
     }
-    void StartCallServer(Location _)
+    void StartCallServer()
     {
-
+        loadingText.text = "Your location is succesfully retrieved";
         if (spawnAmount > 0)
         {
-            //PopulateCoins(serverRawData);
+            StartCoroutine(CallServer(spawnAmount));
+        }
+        else if (spawnAmount == 0 || spawnAmount < 1)
+        {
+            int randomSpawnAmount = UnityEngine.Random.Range(200, 501);
+            spawnAmount = randomSpawnAmount;
+            StartCoroutine(CallServer(spawnAmount));
+        }
+    }
+    void StartCallServer(Location _)
+    {
+        loadingText.text = "Your location is succesfully retrieved";
+        if (spawnAmount > 0)
+        {
+            StartCoroutine(CallServer(spawnAmount));    
         }
         else if (spawnAmount == 0 || spawnAmount < 1)
         {
@@ -148,33 +179,38 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     }
     IEnumerator CallServer(int spawnAmountFinal)
     {
-        if (loadingText != null)loadingText.text = "Please wait we are loading your data from server...";
+        if (loadingText != null)loadingText.text = "Please wait we are loading your data from server based on your location";
         if (!loadingPanel.activeSelf)
         {
             loadingPanel.SetActive(true);
         }
 
-        // retreive player geo location
-        Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
-        var latitudeApi = playerLocation.Latitude;
-        var longitudeApi = playerLocation.Longitude;
+        if (playerLatitude == 0 || playerLongitude == 0)
+        {
+            // retreive player geo location
+            Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+            playerLatitude = playerLocation.Latitude;
+            playerLongitude = playerLocation.Longitude;
+        }
+       
 
         // AF events
         //AppsFlyer.recordLocation(playerLocation.Latitude, playerLocation.Longitude);
 
-        if (playerLocation == null)
+        if (playerLatitude == 0 || playerLongitude == 0)
         {
             //if (OnUserLocationNotEnabled != null)
             //{
             //    OnUserLocationNotEnabled();
             //    yield break;
             //}
+            loadingText.text = "It look like something wrong with your location data, please activate your location service or give access to our app";
+            yield return new WaitForSeconds(2f);
+            loadingPanel.SetActive(false);
+            yield break;
         }
 
-        if (latitudeApi == 0 || longitudeApi == 0)
-        {
-            loadingText.text = "We cannot get your exact location, please check your location setting";
-        }
+
 
         // building query
         string endpoint = ServerDataStatic.GetGateway();
@@ -186,8 +222,8 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             query["member"] = PlayerDataStatic.Member.ToString();
         }
         query["limit"] = spawnAmountFinal.ToString();
-        query["lat"] = latitudeApi.ToString();
-        query["lng"] = longitudeApi.ToString();
+        query["lat"] = playerLatitude.ToString();
+        query["lng"] = playerLongitude.ToString();
         query["os"] = "3114";
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
@@ -220,10 +256,11 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
                 if (OnAllCoinDataRetreived != null)
                 {
+                    Location playerLocation = new Location(playerLatitude, playerLongitude);
                     OnAllCoinDataRetreived(serverRawData, playerLocation);
                 }
-
-                ChangeGameMode(GameMode.Map);
+                gameMode = GameMode.Map;
+                ChangeGameMode(gameMode);
             }
         }
     }

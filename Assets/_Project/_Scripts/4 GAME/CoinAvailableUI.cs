@@ -11,27 +11,27 @@ using UnityEngine.Networking;
 public class CoinAvailableUI : MonoBehaviour
 {
 
-    [SerializeField] MultipleCoinPlacement multipleCoinPlacement;
+    [SerializeField] GameController gameController; 
 
     [SerializeField] TMP_Text coinAvailableText;
 
-    MultipleCoinPlacement.ServerCoinData serverData = new MultipleCoinPlacement.ServerCoinData();
+    GameController.AllCoinData thisServerData = new GameController.AllCoinData();
     private void Awake()
     {
         if (coinAvailableText == null)
         {
             coinAvailableText.GetComponent<CoinAvailableUI>();
         }
-        multipleCoinPlacement.OnFinishCallServer += UpdateText;
+        gameController.OnAllCoinDataRetreived += UpdateText;
     }
     private void OnDestroy()
     {
-        multipleCoinPlacement.OnFinishCallServer -= UpdateText;
+        gameController.OnAllCoinDataRetreived -= UpdateText;
     }
 
-    void UpdateText()
+    void UpdateText(GameController.AllCoinData serverData, Location playerLocation)
     {
-        serverData = multipleCoinPlacement.GetRawServerData();
+        thisServerData = serverData;
         if (serverData != null)
         {
             coinAvailableText.text = $"Terdapat {serverData.data[0].Advertisement} Merek Advertisement dan {serverData.data.Count} coin untuk dikumpulkan";

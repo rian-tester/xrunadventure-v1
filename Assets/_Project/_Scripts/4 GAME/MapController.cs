@@ -6,13 +6,13 @@ using System;
 
 public class MapController : MonoBehaviour
 {
-    [SerializeField] OnlineMapsMarker playerMarker;
+    OnlineMapsMarker playerMarker;
     [SerializeField] MultipleCoinPlacement coinPlacement;
     [SerializeField] Texture2D silverCoinTex;
     [SerializeField] GameController gameController;
 
     GameController.AllCoinData thisAllCoinData;
-    Location thisPlayerLocation;
+    Location thisPlayerLocation = new Location();
     public event Action OnMapSetup;
 
     private void Awake()
@@ -36,6 +36,7 @@ public class MapController : MonoBehaviour
 
         // Subscribe to the change Online Map location event.
         locationService.OnLocationChanged += OnLocationChanged;
+        gameController.OnAllCoinDataRetreived += SetupMap;
     }
     private void OnEnable()
     {
@@ -47,6 +48,7 @@ public class MapController : MonoBehaviour
     {
         //coinPlacement.OnServerDataChanged -= SetupMap;
         OnlineMaps.instance.OnChangeZoom -= OnZoomChanged;
+        gameController.OnAllCoinDataRetreived -= SetupMap;
     }
 
 
@@ -65,6 +67,7 @@ public class MapController : MonoBehaviour
 
     public void CenterMap()
     {
+        // TO DO
         var playerLocation = thisPlayerLocation;
         OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude, 18);
     }
@@ -88,7 +91,6 @@ public class MapController : MonoBehaviour
     {
         // Change the position of the marker.
         playerMarker.position = position;
-        PopulateCoin();
 
         // Redraw map.
         OnlineMaps.instance.Redraw();
@@ -96,9 +98,11 @@ public class MapController : MonoBehaviour
 
     void OnZoomChanged()
     {
+        // TO DO
         var playerLocation = thisPlayerLocation;
         playerMarker.SetPosition(playerLocation.Longitude, playerLocation.Latitude);
-        PopulateCoin();
+        // Redraw map.
+        OnlineMaps.instance.Redraw();
     }
 
     public OnlineMapsMarker GetPlayerMarker()
