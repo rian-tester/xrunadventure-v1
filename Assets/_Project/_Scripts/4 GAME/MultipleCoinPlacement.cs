@@ -189,7 +189,7 @@ public class MultipleCoinPlacement : PlaceAtLocations
         }
 
     }
-    void PopulateCoins(ServerCoinData coinsData)
+    public void PopulateCoins(ServerCoinData coinsData)
     {
         //OnCoinStartIterating();
 

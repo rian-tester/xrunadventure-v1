@@ -9,8 +9,16 @@ public class MapController : MonoBehaviour
     [SerializeField] OnlineMapsMarker playerMarker;
     [SerializeField] MultipleCoinPlacement coinPlacement;
     [SerializeField] Texture2D silverCoinTex;
+    [SerializeField] GameController gameController;
 
+    GameController.AllCoinData thisAllCoinData;
+    Location thisPlayerLocation;
     public event Action OnMapSetup;
+
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         // Create a new marker.
@@ -26,25 +34,27 @@ public class MapController : MonoBehaviour
             return;
         }
 
-        // Subscribe to the change location event.
+        // Subscribe to the change Online Map location event.
         locationService.OnLocationChanged += OnLocationChanged;
     }
     private void OnEnable()
     {
-        coinPlacement.OnServerDataChanged += SetupMap;
+        //coinPlacement.OnServerDataChanged += SetupMap;
         OnlineMaps.instance.OnChangeZoom += OnZoomChanged;
+        gameController.OnAllCoinDataRetreived += SetupMap;
     }
     private void OnDisable()
     {
-        coinPlacement.OnServerDataChanged -= SetupMap;
+        //coinPlacement.OnServerDataChanged -= SetupMap;
         OnlineMaps.instance.OnChangeZoom -= OnZoomChanged;
     }
 
 
-    public void SetupMap()
+    public void SetupMap(GameController.AllCoinData allCoinData, Location playerLocation)
     {
-        var playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
-        OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude,18 );
+        thisAllCoinData = allCoinData;
+        thisPlayerLocation = playerLocation;
+        OnlineMaps.instance.SetPositionAndZoom(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude,18 );
         PopulateCoin();
 
         if (OnMapSetup != null)
@@ -55,17 +65,15 @@ public class MapController : MonoBehaviour
 
     public void CenterMap()
     {
-        var playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+        var playerLocation = thisPlayerLocation;
         OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude, 18);
     }
 
     public void PopulateCoin()
     {
-        MultipleCoinPlacement.ServerCoinData rawServerData = coinPlacement.GetRawServerData();
-
         int i = 0;
 
-        foreach(CoinData coin in rawServerData.data)
+        foreach(CoinData coin in thisAllCoinData.data)
         {
             if (i > 100) return ;
             double latitude = double.Parse(coin.Lat); 
@@ -88,7 +96,7 @@ public class MapController : MonoBehaviour
 
     void OnZoomChanged()
     {
-        var playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+        var playerLocation = thisPlayerLocation;
         playerMarker.SetPosition(playerLocation.Longitude, playerLocation.Latitude);
         PopulateCoin();
     }

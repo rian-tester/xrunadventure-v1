@@ -2,5 +2,6 @@
 public enum GameMode
 {
     Catch,
-    Map
+    Map,
+    None
 }
