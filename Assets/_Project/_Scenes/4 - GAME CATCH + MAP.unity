@@ -678,6 +678,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143893678}
   m_CullTransparentMesh: 1
+--- !u!1 &161261181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 164475778766860076, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+  m_PrefabInstance: {fileID: 4440906959872376215}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &161261183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161261181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b0ec5b3657c7f428ed5c568fdab4a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &189808767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2648,7 @@ MonoBehaviour:
   loadingPanel: {fileID: 141973760}
   serverRawData:
     data: []
+  debugText: {fileID: 4838311400591201196}
   gameMode: 1
 --- !u!1 &905995753
 GameObject:
@@ -5207,6 +5225,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003893548}
   m_CullTransparentMesh: 1
+--- !u!1 &2007807442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 164475778923351476, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+  m_PrefabInstance: {fileID: 4440906959872376215}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2007807445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007807442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_MaxRayIntersections: 0
 --- !u!1 &2015679369
 GameObject:
   m_ObjectHideFlags: 0
@@ -5863,7 +5902,7 @@ MonoBehaviour:
     MinDistanceBetweenUpdates: 0
     AccuracyRadius: 100
     MaxNumberOfUpdates: 0
-  MockLocationData: {fileID: 11400000, guid: 9f1d2c81146fb9b498be366efa97f0b9, type: 2}
+  MockLocationData: {fileID: 11400000, guid: 41f99c9cf0346034bb620bc37e9d302d, type: 2}
   MaxWaitTime: 120
   StartUpDelay: 5
   DebugMode: 0
@@ -6605,6 +6644,23 @@ PrefabInstance:
       propertyPath: height
       value: 1024
       objectReference: {fileID: 0}
+    - target: {fileID: 164475778766860052, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+      propertyPath: mapType
+      value: mapbox.map
+      objectReference: {fileID: 0}
+    - target: {fileID: 164475778766860052, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+      propertyPath: showMarkerTooltip
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 164475778766860052, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+      propertyPath: _activeTypeSettings
+      value: 07User ID1917xrunllc06Map ID228225clacbms01000m15qcoytbx8io12Access
+        Token292289pk.eyJ1IjoieHJ1bmxsYyIsImEiOiJjbDVtZjhzbXYwdDg5M2p0ZTl4cHZiMjZqIn0.mGsMINRBrMe6VkWqgoP61w
+      objectReference: {fileID: 0}
+    - target: {fileID: 164475778766860054, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+      propertyPath: defaultScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 164475778766860073, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
       propertyPath: sizeInScene.x
       value: 1024
@@ -6612,6 +6668,10 @@ PrefabInstance:
     - target: {fileID: 164475778766860073, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
       propertyPath: sizeInScene.y
       value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 164475778923351476, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
+      propertyPath: m_TagString
+      value: MapCamera
       objectReference: {fileID: 0}
     - target: {fileID: 164475778923351477, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7125,8 +7185,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8192,7 +8252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &4838311401441540567
 CanvasRenderer:
   m_ObjectHideFlags: 0

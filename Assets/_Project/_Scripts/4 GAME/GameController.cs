@@ -35,6 +35,8 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     [SerializeField]
     AllCoinData serverRawData = new AllCoinData();
 
+    [SerializeField] TMP_Text debugText;
+
     int spawnAmount = 0;
     double playerLatitude;
     double playerLongitude;
@@ -52,6 +54,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
         loadingText.text = "Getting your location for server call";
         ARLocationProvider.Instance.OnEnabled.AddListener(StartCallServer);
         print("listener added");
+        debugText.text = "Awake complete";
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -175,10 +178,12 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             int randomSpawnAmount = UnityEngine.Random.Range(200, 501);
             spawnAmount = randomSpawnAmount;
             StartCoroutine(CallServer(spawnAmount));
+            debugText.text = "Start call server complete";
         }
     }
     IEnumerator CallServer(int spawnAmountFinal)
     {
+        debugText.text = "Call server begin ";
         if (loadingText != null)loadingText.text = "Please wait we are loading your data from server based on your location";
         if (!loadingPanel.activeSelf)
         {
@@ -191,6 +196,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
             playerLatitude = playerLocation.Latitude;
             playerLongitude = playerLocation.Longitude;
+            debugText.text = $"Retreive player geo location {playerLatitude}, {playerLatitude}";
         }
        
 
@@ -199,6 +205,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
         if (playerLatitude == 0 || playerLongitude == 0)
         {
+            debugText.text = "Lat Lon still zero after try to get";
             //if (OnUserLocationNotEnabled != null)
             //{
             //    OnUserLocationNotEnabled();
@@ -213,6 +220,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
 
         // building query
+        debugText.text = "Start building query";
         string endpoint = ServerDataStatic.GetGateway();
         var uriBuilder = new UriBuilder(endpoint);
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
@@ -239,7 +247,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 {
                     OnAllCoinDataFailed();
                 }
-
+                debugText.text = "Web request failed ";
                 Debug.Log(www.error);
                 loadingPanel.SetActive(false);
             }
@@ -251,12 +259,14 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 // store into costum class
 
                 serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
-
+                
                 loadingPanel.SetActive(false);
 
                 if (OnAllCoinDataRetreived != null)
                 {
                     Location playerLocation = new Location(playerLatitude, playerLongitude);
+                    debugText.text = $"Web request succes but result Lat Lon {playerLatitude}{playerLongitude} and server data number {serverRawData.data.Count} data";
+                    debugText.text = $"{serverRawData.data[0]}";
                     OnAllCoinDataRetreived(serverRawData, playerLocation);
                 }
                 gameMode = GameMode.Map;

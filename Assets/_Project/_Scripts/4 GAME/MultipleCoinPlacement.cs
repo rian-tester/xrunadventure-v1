@@ -112,7 +112,7 @@ public class MultipleCoinPlacement : PlaceAtLocations
                 Destroy(child.gameObject);
             }
         }
-        print($"total object in AR Location root {arLocationRoot.childCount}");
+        print($"total object in AR DragLocation root {arLocationRoot.childCount}");
     }
     bool CanPlaceCoins(GameMode currentGameMode)
     {

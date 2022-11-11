@@ -29,7 +29,7 @@ public class UserLocation : MonoBehaviour
     {      
         //if (userLocationTextLatitude != null && userLocationTextLongitude != null)
         //{
-        //    Location cameraLocation = ARLocationManager.Instance.GetLocationForWorldPosition(arCamera.transform.position);
+        //    DragLocation cameraLocation = ARLocationManager.Instance.GetLocationForWorldPosition(arCamera.transform.position);
         //    userLocationTextLatitude.text = "Lat : " + cameraLocation.Latitude.ToString();
         //    userLocationTextLongitude.text = "Lng : " + cameraLocation.Longitude.ToString();
         //} 

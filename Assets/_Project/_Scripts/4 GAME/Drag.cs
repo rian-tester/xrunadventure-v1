@@ -1,19 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
-using ARLocation;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDragHandler
 {
-    public class Location
+    public class DragLocation
     {
         public double Lng;
         public double Lat;
 
-        public Location(double lng, double lat)
+        public DragLocation(double lng, double lat)
         {
             Lng = lng;
             Lat = lat;
@@ -22,10 +17,10 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
 
     [SerializeField] Camera mapCamera;
     OnlineMaps map;
-    Location startDraglocation;
-    Location lastDraglocation;
-    Location originLocation;
-    Location targetLocation;
+    DragLocation startDraglocation;
+    DragLocation lastDraglocation;
+    DragLocation originLocation;
+    DragLocation targetLocation;
 
     [SerializeField] float draggingModifier;
     private void Start()
@@ -58,7 +53,7 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
         originLocation = GetCenterCameraCoordinates();
         
         // add the offset into origin of the drag location
-        Location toGoLocation = new Location(originLocation.Lng + offsetLng, originLocation.Lat + offsetLat);
+        DragLocation toGoLocation = new DragLocation(originLocation.Lng + offsetLng, originLocation.Lat + offsetLat);
 
         //set map position into that new location 
         targetLocation = toGoLocation;
@@ -76,7 +71,7 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
         targetLocation = null;
     }
 
-    Location GetTouchPointInCoordinates(PointerEventData eventData)
+    DragLocation GetTouchPointInCoordinates(PointerEventData eventData)
     {
         var clickPoint = eventData.position;
 
@@ -90,10 +85,10 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
         double lng = 0;
         double lat = 0;
         OnlineMapsControlBase.instance.GetCoords(new Vector2(hitPointInworld.x, hitPointInworld.y), out lng, out lat);
-        Location result = new Location(lng, lat);
+        DragLocation result = new DragLocation(lng, lat);
         return result;
     }
-    Location GetCenterCameraCoordinates()
+    DragLocation GetCenterCameraCoordinates()
     {
         Vector3 hitPointInworld = new Vector3(0, 0, 0);
         Ray ray = mapCamera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
@@ -105,7 +100,7 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
         double lng = 0;
         double lat = 0;
         OnlineMapsControlBase.instance.GetCoords(new Vector2(hitPointInworld.x, hitPointInworld.y), out lng, out lat);
-        Location result = new Location(lng, lat);
+        DragLocation result = new DragLocation(lng, lat);
         return result;
     }
     void DebugLine(PointerEventData eventData, Color lineColor)

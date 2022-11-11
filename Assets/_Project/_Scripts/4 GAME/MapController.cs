@@ -30,7 +30,7 @@ public class MapController : MonoBehaviour
         if (locationService == null)
         {
             Debug.LogError(
-                "Location Service not found.\nAdd Location Service Component (Component / Infinity Code / Online Maps / Plugins / Location Service).");
+                "DragLocation Service not found.\nAdd DragLocation Service Component (Component / Infinity Code / Online Maps / Plugins / DragLocation Service).");
             return;
         }
 
@@ -84,6 +84,8 @@ public class MapController : MonoBehaviour
             OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, coin.Coin);
             i++;
         }
+        
+
     }
 
     // When the location has changed

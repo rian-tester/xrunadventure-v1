@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class GameManager : Panel
 {
     [SerializeField] UserLocation userLocation;
+    [SerializeField] GameController gameController;
     
     [Header("Controlling")]
     [SerializeField] AudioManager audioManager;
@@ -29,7 +31,12 @@ public class GameManager : Panel
     private void OnEnable()
     {
         userLocation.OnUserLocationNotAvailable += ActionUserLocationNotAvailable;
+        gameController.OnAllCoinDataFailed += ActionAllCoinDataFailed;
+
     }
+
+    
+
     private void OnDisable()
     {
         userLocation.OnUserLocationNotAvailable -= ActionUserLocationNotAvailable;
@@ -70,19 +77,26 @@ public class GameManager : Panel
     }
     public void ARTrackingLost()
     {
-        debugText.text ="AR Location Manager : tracking is Lost!";
+        debugText.text ="AR DragLocation Manager : tracking is Lost!";
     }
     public void ARTrackingRestored()
     {
-        debugText.text = "AR Location Manager : tracking is Restored!";
+        debugText.text = "AR DragLocation Manager : tracking is Restored!";
     }
     public void ARLocationEnabled()
     {
-        debugText.text = "AR Location Provider : Location is Enabled!";
+        debugText.text = "AR DragLocation Provider : DragLocation is Enabled!";
     }
 
     void ActionUserLocationNotAvailable()
     {
         ShowPromptTextPanelForSeconds(userLocationNotAvailable, 1.5f);
     }
+    void ActionAllCoinDataFailed()
+    {
+        string allCoinDataFailed = "Web request not completed or error";
+        ShowPromptTextPanelForSeconds(allCoinDataFailed, 1.5f);
+    }
+
+
 }

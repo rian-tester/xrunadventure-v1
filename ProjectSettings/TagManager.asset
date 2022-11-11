@@ -23,6 +23,7 @@ TagManager:
   - CurrentPhoneCode
   - Exchange
   - MyAdsManager
+  - MapCamera
   layers:
   - Default
   - TransparentFX
