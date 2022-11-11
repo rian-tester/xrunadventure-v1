@@ -12,9 +12,15 @@ using AppsFlyerSDK;
 using static OnlineMapsGPXObject;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json;
 
 public class RegisterVerificationDataManager : Fields
 {
+    public class RegisterVerificationCode
+    {
+        public string data;
+        public string value;
+    }
     [SerializeField] Button okButton;
     [SerializeField] TMP_InputField[] codeFields;
     [SerializeField] TMP_InputField codeFieldsOneLine;
@@ -77,12 +83,14 @@ public class RegisterVerificationDataManager : Fields
             {
                 // cahching request response
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "false")
+                RegisterVerificationCode serverResult = new RegisterVerificationCode();
+                serverResult = JsonConvert.DeserializeObject<RegisterVerificationCode>(rawData);
+
+                if ( serverResult.data == "false")
                 {
                     OnCodeNotCorrect();
                 }
-                else if (json.GetString("data") == "login")
+                else if (serverResult.data == "login")
                 {
                     StartCoroutine(RegisterNewMember());
                 }

@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
     [SerializeField] TMP_Text debugText;
 
-    int spawnAmount = 0;
+    int spawnAmount = 100;
     double playerLatitude;
     double playerLongitude;
 
@@ -224,11 +224,8 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
         string endpoint = ServerDataStatic.GetGateway();
         var uriBuilder = new UriBuilder(endpoint);
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["act"] = "app2000-01";
-        if (PlayerDataStatic.Member != null)
-        {
-            query["member"] = PlayerDataStatic.Member.ToString();
-        }
+        query["act"] = "coinmapping";
+        query["member"] = PlayerDataStatic.Member.ToString();
         query["limit"] = spawnAmountFinal.ToString();
         query["lat"] = playerLatitude.ToString();
         query["lng"] = playerLongitude.ToString();
@@ -257,20 +254,35 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 // store into costum class
-
+                debugText.text = www.downloadHandler.text;
                 serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
+                if (serverRawData.data.Count == 0)
+                {
+                    debugText.text = "Waiting 5 second because server result is 0";
+                    yield return new WaitForSeconds(5f);
+                }
                 
-                loadingPanel.SetActive(false);
+                //debugText.text = serverRawData.data.Count.ToString();
+
+                if (serverRawData.data.Count == 0)
+                {
+                    debugText.text = $"Raw server result = {www.downloadHandler.text}";
+                    gameMode = GameMode.Map;
+                    ChangeGameMode(gameMode);
+                    loadingPanel.SetActive(false);
+                }
 
                 if (OnAllCoinDataRetreived != null)
                 {
                     Location playerLocation = new Location(playerLatitude, playerLongitude);
-                    debugText.text = $"Web request succes but result Lat Lon {playerLatitude}{playerLongitude} and server data number {serverRawData.data.Count} data";
-                    debugText.text = $"{serverRawData.data[0]}";
+                    //debugText.text = $"Web request succes but result Lat Lon {playerLatitude}{playerLongitude} and server data number {serverRawData.data.Count} data";
+                    //debugText.text = $"{serverRawData.data[0]}";
                     OnAllCoinDataRetreived(serverRawData, playerLocation);
                 }
                 gameMode = GameMode.Map;
                 ChangeGameMode(gameMode);
+                loadingPanel.SetActive(false);
+
             }
         }
     }

@@ -37,10 +37,12 @@ public class CardGenerator : MonoBehaviour
     {
         this.cardName.text = cardData.displaystr;
         this.address.text = cardData.address;
-        decimal currency1Final = decimal.Parse(cardData.amount);
+        double currency1Final = double.Parse(cardData.amount);
+        print(currency1Final);
         this.currency1Amount.text = $"{Math.Round(currency1Final, 2)} {cardData.symbol}";
-        decimal currency2Final = decimal.Parse(cardData.eamount);
-        this.currency2Amount.text = $"{cardData.countrySymbol} : {Math.Round(currency2Final, 2).ToString()}";
+        double currency2Final = double.Parse(cardData.eamount);
+        print(currency2Final);
+        this.currency2Amount.text = $"{cardData.countrySymbol} : {Math.Round(currency2Final,2)}";
         this.thisCardData = cardData;
 
         CardQRCreator thisCardQRCreator = GetComponent<CardQRCreator>();
