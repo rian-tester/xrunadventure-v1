@@ -45,7 +45,7 @@ public class SendDataManager : MonoBehaviour
             }
             else
             {
-                print($"Wallet data send");
+                Debug.Log($"Wallet data send");
             }
         }
         StartCoroutine(SendToken());
@@ -75,7 +75,7 @@ public class SendDataManager : MonoBehaviour
             }
             else
             {
-                print($"Data send to server");
+                Debug.Log($"Data send to server");
 
                 if (OnSendProcessFinish != null)
                 {

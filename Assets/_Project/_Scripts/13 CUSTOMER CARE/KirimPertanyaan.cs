@@ -37,7 +37,7 @@ public class KirimPertanyaan : MonoBehaviour
             }
             else
             {
-                print("Question send!");
+                Debug.Log("Question send!");
                 question.text = null;
             }
         }

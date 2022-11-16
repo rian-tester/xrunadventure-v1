@@ -13,11 +13,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
 {
-    [Serializable]
-    public class AllCoinData
-    {
-        public List<CoinData> data;
-    }
+
     // Controlling
     Animation anim;
     [SerializeField] Image buttonImage;
@@ -28,24 +24,30 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     [SerializeField] GameObject arSession;
     [SerializeField] GameObject arSessionOrigin;
     [SerializeField] MultipleCoinPlacement multipleCoinPlacement;
+    [SerializeField] MapController mapController;
     [SerializeField] GameObject environmentLighting;
     
     [SerializeField] TMP_Text loadingText;
     [SerializeField] GameObject loadingPanel;
     [SerializeField]
-    AllCoinData serverRawData = new AllCoinData();
+    AllCoinData serverRawData;
 
     [SerializeField] TMP_Text debugText;
+    [SerializeField] TMP_Text debugTextLocation;
 
-    int spawnAmount = 100;
+    int spawnAmount = 10;
     double playerLatitude;
     double playerLongitude;
 
     [SerializeField] GameMode gameMode = GameMode.Map;
 
     public event Action OnModeChanged;
-    public event Action<AllCoinData, Location> OnAllCoinDataRetreived;
+    public event Action<Location> OnPlayerLocationRetreived;
+    public event Action<AllCoinData> OnAllCoinDataRetreived;
     public event Action OnAllCoinDataFailed;
+    public event Action OnMapModeActive;
+    public event Action OnCatchModeActive;
+
     private void Start()
     {
         anim = GetComponent<Animation>();
@@ -53,7 +55,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
         loadingPanel.SetActive(true);
         loadingText.text = "Getting your location for server call";
         ARLocationProvider.Instance.OnEnabled.AddListener(StartCallServer);
-        print("listener added");
+        Debug.Log("listener added");
         debugText.text = "Awake complete";
     }
 
@@ -123,6 +125,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 if (!MapItems.activeSelf) MapItems.gameObject.SetActive(true);
                 OnlineMaps.instance.Redraw();
                 mapLighting.gameObject.SetActive(true);
+                mapController.PopulateCoinMarker();
 
                 //Catch
                 multipleCoinPlacement.UnPopulateCoin();
@@ -142,6 +145,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 mapImage.gameObject.SetActive(false);
                 MapItems.gameObject.SetActive(false);
                 mapLighting.gameObject.SetActive(false);
+                mapController.UnpopulateCoinMarker();
 
                 
                 break;
@@ -254,35 +258,35 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 // store into costum class
-                debugText.text = www.downloadHandler.text;
+                serverRawData = new AllCoinData();
                 serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
                 if (serverRawData.data.Count == 0)
                 {
-                    debugText.text = "Waiting 5 second because server result is 0";
+                    debugText.text = "Waiting 5 second because data array is 0";
                     yield return new WaitForSeconds(5f);
                 }
-                
-                //debugText.text = serverRawData.data.Count.ToString();
 
-                if (serverRawData.data.Count == 0)
+                
+                debugTextLocation.text = $"Device Location result = {playerLatitude}, {playerLongitude}";
+                debugText.text = $"Raw server result = {www.downloadHandler.text}";
+
+                if (OnPlayerLocationRetreived != null)
                 {
-                    debugText.text = $"Raw server result = {www.downloadHandler.text}";
-                    gameMode = GameMode.Map;
-                    ChangeGameMode(gameMode);
-                    loadingPanel.SetActive(false);
+                    Location playerLocation = new Location(playerLatitude, playerLongitude);
+                    OnPlayerLocationRetreived(playerLocation);
                 }
 
                 if (OnAllCoinDataRetreived != null)
                 {
-                    Location playerLocation = new Location(playerLatitude, playerLongitude);
-                    //debugText.text = $"Web request succes but result Lat Lon {playerLatitude}{playerLongitude} and server data number {serverRawData.data.Count} data";
-                    //debugText.text = $"{serverRawData.data[0]}";
-                    OnAllCoinDataRetreived(serverRawData, playerLocation);
+                    if (serverRawData != null)
+                    {
+                        if (serverRawData.data.Count > 0 ) OnAllCoinDataRetreived(serverRawData);
+                    }
                 }
+                loadingPanel.SetActive(false);
                 gameMode = GameMode.Map;
                 ChangeGameMode(gameMode);
-                loadingPanel.SetActive(false);
-
+                
             }
         }
     }

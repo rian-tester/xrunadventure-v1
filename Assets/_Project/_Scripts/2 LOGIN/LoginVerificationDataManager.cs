@@ -47,7 +47,7 @@ public class LoginVerificationDataManager : Fields
     }
     IEnumerator SubmitVerificationcode()
     {
-        print(submittedCode);
+        Debug.Log(submittedCode);
         // building query
         string endpoint = ServerDataStatic.GetGateway();
         var uriBuilder = new UriBuilder(endpoint);

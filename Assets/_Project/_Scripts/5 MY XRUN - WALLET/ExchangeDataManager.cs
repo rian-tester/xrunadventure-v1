@@ -86,7 +86,7 @@ public class ExchangeDataManager : MonoBehaviour
                 rate = 0;
             }
         }
-        print(rate.ToString());
+        Debug.Log(rate.ToString());
         return rate;
     }
     IEnumerator BeforeExchangeToken()
@@ -110,7 +110,7 @@ public class ExchangeDataManager : MonoBehaviour
             }
             else
             {
-                print($"Wallet data send");
+                Debug.Log($"Wallet data send");
                 StartCoroutine(ExchangeToken());
             }
         }
@@ -141,7 +141,7 @@ public class ExchangeDataManager : MonoBehaviour
             }
             else
             {
-                print($"Data send to server");
+                Debug.Log($"Data send to server");
 
                 if (OnExchangeProcessFinish != null)
                 {

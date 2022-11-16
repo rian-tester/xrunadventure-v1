@@ -8,9 +8,9 @@ public class MultipleMapPlacement : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] LayerMask mapLayer;
 
-    GameController.AllCoinData serverCoinData;
+    AllCoinData serverCoinData = new AllCoinData();
 
-    public void PopulateMap(GameController.AllCoinData serverData)
+    public void PopulateMap(AllCoinData serverData)
     {
         serverCoinData = serverData;
         

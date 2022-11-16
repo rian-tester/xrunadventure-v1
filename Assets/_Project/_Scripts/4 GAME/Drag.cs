@@ -34,7 +34,7 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
 
         // coordinates when start dragging
         startDraglocation = GetTouchPointInCoordinates(eventData);
-        print($"Start drag location {startDraglocation.Lat}, {startDraglocation.Lng}");
+        Debug.Log($"Start drag location {startDraglocation.Lat}, {startDraglocation.Lng}");
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -42,12 +42,12 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , IDra
 
         // coordinates last position when dragging
         lastDraglocation = GetTouchPointInCoordinates(eventData);
-        print($"Last drag location {lastDraglocation.Lat}, {lastDraglocation.Lng}");
+        Debug.Log($"Last drag location {lastDraglocation.Lat}, {lastDraglocation.Lng}");
 
         // calculate offset between start drag and last drag location
         double offsetLng = (lastDraglocation.Lng  - startDraglocation.Lng) * draggingModifier ;
         double offsetLat = (lastDraglocation.Lat - startDraglocation.Lat) * draggingModifier;
-        print($"offset Lng:{offsetLng}, Lat:{offsetLat}");
+        Debug.Log($"offset Lng:{offsetLng}, Lat:{offsetLat}");
         
         // get orgin of the drag location
         originLocation = GetCenterCameraCoordinates();

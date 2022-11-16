@@ -107,7 +107,7 @@ public class AdvertisementDataManager : MonoBehaviour
 
     void RewardCoinToPlayer(AdvertisementData advData)
     {
-        print($"{advData.coin} from {gameObject.name}");
+        Debug.Log($"{advData.coin} from {gameObject.name}");
         StartCoroutine(RewardingCoinToPlayerProcess(advData));
     }
 
@@ -143,7 +143,7 @@ public class AdvertisementDataManager : MonoBehaviour
                 //{
                 //    OnCoinRewareded();
                 //}
-                print(www.downloadHandler.text);
+                Debug.Log(www.downloadHandler.text);
                 int currentScene = SceneManager.GetActiveScene().buildIndex;
                 SceneManager.LoadScene(currentScene);
 

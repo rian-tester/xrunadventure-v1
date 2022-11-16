@@ -25,7 +25,7 @@ public class HapusAkunDataManager : MonoBehaviour
     public void ConfirmToDeleteAccount()
     {
         FillReasonString();
-        print("All reason : " + reason);
+        Debug.Log("All reason : " + reason);
         if (!AllDataReady()) return;
         else
         {
@@ -87,12 +87,12 @@ public class HapusAkunDataManager : MonoBehaviour
                 serverRawData = JsonConvert.DeserializeObject<ServerDataStructure>(rawData);
                 if (serverRawData.data[0].count == "-1")
                 {
-                    print($"Delete account failed, response code : {serverRawData.data[0].count}");
+                    Debug.Log($"Delete account failed, response code : {serverRawData.data[0].count}");
                     manager.ClosePrompt();
                 }
                 else
                 {
-                    print($"Delete account succeed, response code : {serverRawData.data[0].count}");
+                    Debug.Log($"Delete account succeed, response code : {serverRawData.data[0].count}");
                     manager.ClosePrompt();
                 }
             }

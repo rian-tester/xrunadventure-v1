@@ -77,7 +77,7 @@ public class MyAdsManager : Panel
     {
         string t = "Apakah Anda bersedia menonton iklan untuk mendapatkan koin ini?";
         advertisementData = advData;
-        print($"{advData.coin} from {gameObject.name}");
+        Debug.Log($"{advData.coin} from {gameObject.name}");
         ShowCostumPanel(adsCanvasGroup, adsText, t);
     }
 

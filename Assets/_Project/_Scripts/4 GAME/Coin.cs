@@ -161,7 +161,7 @@ public class Coin : MonoBehaviour
     public void RewardingCoin()
     {
         StartCoroutine(RewardingCoinToPlayerProcess());
-        print("Run method");
+        Debug.Log("Run method");
     }
 
     IEnumerator RewardingCoinToPlayerProcess()

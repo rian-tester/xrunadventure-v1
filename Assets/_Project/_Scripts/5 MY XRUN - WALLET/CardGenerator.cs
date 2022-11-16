@@ -38,10 +38,10 @@ public class CardGenerator : MonoBehaviour
         this.cardName.text = cardData.displaystr;
         this.address.text = cardData.address;
         double currency1Final = double.Parse(cardData.amount);
-        print(currency1Final);
+        Debug.Log(currency1Final);
         this.currency1Amount.text = $"{Math.Round(currency1Final, 2)} {cardData.symbol}";
         double currency2Final = double.Parse(cardData.eamount);
-        print(currency2Final);
+        Debug.Log(currency2Final);
         this.currency2Amount.text = $"{cardData.countrySymbol} : {Math.Round(currency2Final,2)}";
         this.thisCardData = cardData;
 

@@ -15,7 +15,7 @@ public class CoinAvailableUI : MonoBehaviour
 
     [SerializeField] TMP_Text coinAvailableText;
 
-    GameController.AllCoinData thisServerData = new GameController.AllCoinData();
+    AllCoinData thisServerData = new AllCoinData();
     private void Awake()
     {
         if (coinAvailableText == null)
@@ -29,7 +29,7 @@ public class CoinAvailableUI : MonoBehaviour
         gameController.OnAllCoinDataRetreived -= UpdateText;
     }
 
-    void UpdateText(GameController.AllCoinData serverData, Location playerLocation)
+    void UpdateText(AllCoinData serverData)
     {
         thisServerData = serverData;
         if (serverData != null)

@@ -14,7 +14,7 @@ public class MultipleCoinPlacement : PlaceAtLocations
     [Header("Spawning Setup")]
     [SerializeField] GameController gameController;
     [SerializeField]
-    GameController.AllCoinData serverRawData = new GameController.AllCoinData();
+    AllCoinData serverRawData = new AllCoinData();
 
     [Space(2.0f)]
     [Header("Debugging")]
@@ -31,15 +31,15 @@ public class MultipleCoinPlacement : PlaceAtLocations
         //gameController.OnModeChanged -= UpdateGameMode;
         gameController.OnAllCoinDataRetreived -= SetServerData;
     }
-    void SetServerData(GameController.AllCoinData serverData, Location playerLocation)
+    void SetServerData(AllCoinData serverData)
     {
-        serverRawData = serverData;
+        if (serverData != null)
+        {
+            serverRawData = serverData;
+        }
+        
     }
-    public GameController.AllCoinData GetServerData()
-    {
-        return serverRawData;
-    }
-   
+
     public void PopulateCoins()
     {
         if (serverRawData == null) return;
@@ -100,6 +100,7 @@ public class MultipleCoinPlacement : PlaceAtLocations
     }
     public void UnPopulateCoin()
     {
+        if (serverRawData == null) return;
         if (CanPlaceCoins(gameController.GetGameMode())) return;
 
         Transform arLocationRoot = ARLocationManager.Instance.gameObject.transform;
@@ -112,7 +113,7 @@ public class MultipleCoinPlacement : PlaceAtLocations
                 Destroy(child.gameObject);
             }
         }
-        print($"total object in AR DragLocation root {arLocationRoot.childCount}");
+        Debug.Log($"total object in AR DragLocation root {arLocationRoot.childCount}");
     }
     bool CanPlaceCoins(GameMode currentGameMode)
     {
