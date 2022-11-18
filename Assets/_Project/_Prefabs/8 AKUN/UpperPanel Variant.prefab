@@ -366,7 +366,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 60.01819}
-  m_SizeDelta: {x: 600, y: 199.9633}
+  m_SizeDelta: {x: 1400, y: 199.9633}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1915975310
 CanvasRenderer:
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SEAN
+  m_text: Player Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 868532553e07d0a469a1a653b5300427, type: 2}
   m_sharedMaterial: {fileID: -4255865646793094837, guid: 868532553e07d0a469a1a653b5300427, type: 2}
@@ -423,15 +423,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 130
+  m_fontSizeBase: 130
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 1024
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -482,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5991067225952716920, guid: 02b44c8f052be784fb5c5c3af334811c, type: 3}
       propertyPath: m_Name
-      value: UpperPanel
+      value: UpperPanel Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5991067225952716923, guid: 02b44c8f052be784fb5c5c3af334811c, type: 3}
       propertyPath: m_Pivot.x

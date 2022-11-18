@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ARLocation;
 using System;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class MapController : MonoBehaviour
 {
@@ -66,6 +68,8 @@ public class MapController : MonoBehaviour
     public void SetCoinData(AllCoinData serverCoinData)
     {
         thisAllCoinData = serverCoinData;
+
+        PopulateCoinMarker();
     }
 
     public void CenterMap()
@@ -78,7 +82,7 @@ public class MapController : MonoBehaviour
     public void PopulateCoinMarker()
     {
         if (!CanPlaceCoinMarker(gameController.GetGameMode())) return;
-        if (thisAllCoinData == null) return;
+        if (thisAllCoinData.data.Count == 0) return;
 
         int i = 0;
 
@@ -88,8 +92,11 @@ public class MapController : MonoBehaviour
             double latitude = double.Parse(coin.Lat); 
             double longitude = double.Parse(coin.Lng);
             OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, coin.Coin);
+            marker.scale = 0.015f;
             i++;
         }
+
+        OnlineMaps.instance.Redraw();
     }
 
     public void UnpopulateCoinMarker()

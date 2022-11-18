@@ -2,13 +2,17 @@ using AppsFlyerSDK;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AkunManager : MonoBehaviour
 {
+    [SerializeField] TMP_Text memberName;
     private void Awake()
     {
+        memberName.text = PlayerDataStatic.Firstname;
+        
         // AF event
         Dictionary<string, string>
             eventValues = new Dictionary<string, string>();

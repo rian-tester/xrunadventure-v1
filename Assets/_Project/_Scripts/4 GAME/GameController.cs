@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 if (!MapItems.activeSelf) MapItems.gameObject.SetActive(true);
                 OnlineMaps.instance.Redraw();
                 mapLighting.gameObject.SetActive(true);
-                mapController.PopulateCoinMarker();
+                //mapController.PopulateCoinMarker();
 
                 //Catch
                 multipleCoinPlacement.UnPopulateCoin();
@@ -145,7 +145,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 mapImage.gameObject.SetActive(false);
                 MapItems.gameObject.SetActive(false);
                 mapLighting.gameObject.SetActive(false);
-                mapController.UnpopulateCoinMarker();
+                //mapController.UnpopulateCoinMarker();
 
                 
                 break;
@@ -256,7 +256,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             {
 
                 // cahching request response
-                var rawData = www.downloadHandler.text;
+                string rawData = www.downloadHandler.text;
                 // store into costum class
                 serverRawData = new AllCoinData();
                 serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
@@ -276,17 +276,18 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                     OnPlayerLocationRetreived(playerLocation);
                 }
 
-                if (OnAllCoinDataRetreived != null)
-                {
-                    if (serverRawData != null)
-                    {
-                        if (serverRawData.data.Count > 0 ) OnAllCoinDataRetreived(serverRawData);
-                    }
-                }
+                
                 loadingPanel.SetActive(false);
                 gameMode = GameMode.Map;
                 ChangeGameMode(gameMode);
-                
+
+                if (OnAllCoinDataRetreived != null)
+                {
+
+                  if (serverRawData.data.Count > 0) OnAllCoinDataRetreived(serverRawData);
+
+                }
+
             }
         }
     }

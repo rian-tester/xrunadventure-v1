@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 100, y: 0, z: 100, w: 0}
+  m_margin: {x: 300, y: 0, z: 300, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -243,7 +243,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 6915701694681660227}
   contentText: {fileID: 6915701693420834958}
-  c: 
 --- !u!1 &6915701694681660225
 GameObject:
   m_ObjectHideFlags: 0
