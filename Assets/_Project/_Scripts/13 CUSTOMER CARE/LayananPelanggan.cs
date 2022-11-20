@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LayananPelanggan : MonoBehaviour
 {
     [SerializeField] ScrollRect faqScrollRect;
-    [SerializeField] Image questionPanel;
+    [SerializeField] GameObject questionPanel;
 
     public void ShowFaq()
     {
@@ -18,7 +18,7 @@ public class LayananPelanggan : MonoBehaviour
     }
     public void ShowQuestion()
     {
-        if (!questionPanel.isActiveAndEnabled)
+        if (!questionPanel.activeSelf)
         {
             questionPanel.gameObject.SetActive(true);
         }
