@@ -122,20 +122,20 @@ public class RouteController : MonoBehaviour
         CoinData coinData = coin.GetComponent<CoinData>();
         if (coinData == null)
         {
-            return "This coin has no data!";
+            return "This coin has no serverData!";
             
         }
         else
         {
             return $"Coin details : \n" +
-            $"Coin ID : {coinData.Coin}\n" +
-            $"Coin type : {coinData.Cointype}\n" +
-            $"Coin type : {coinData.Cointype}\n" +
-            $"Lat : {coinData.Lat}\n" +
-            $"Lng : {coinData.Lng}\n" +
-            $"Distance : {coinData.Distance}\n" +
-            $"Distance : {coinData.Distance}\n" +
-            $"Xrun value : {coinData.Coins}\n";
+            $"Coin ID : {coinData.coin}\n" +
+            $"Coin type : {coinData.cointype}\n" +
+            $"Coin type : {coinData.cointype}\n" +
+            $"Lat : {coinData.lat}\n" +
+            $"Lng : {coinData.lng}\n" +
+            $"Distance : {coinData.distance}\n" +
+            $"Distance : {coinData.distance}\n" +
+            $"Xrun value : {coinData.coins}\n";
         }
     }
     public void DisableRoute()

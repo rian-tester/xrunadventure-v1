@@ -9,6 +9,6 @@ public class SettingManager : MonoBehaviour
     }
     public void DataOkButtonClicked()
     {
-        Debug.Log("To update data!");
+        Debug.Log("To update serverData!");
     }
 }

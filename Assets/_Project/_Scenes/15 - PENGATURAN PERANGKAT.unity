@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratio: 0
-  colorA: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  colorA: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   colorB: {r: 1.0571, g: 0.83588636, b: 0.30497336, a: 1}
   parentObject: {fileID: 1183516391}
   vFactor: 1.0571
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  m_Color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1748,7 +1748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratio: 0
-  colorA: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  colorA: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   colorB: {r: 1.0571, g: 0.83588636, b: 0.30497336, a: 1}
   parentObject: {fileID: 317601813}
   vFactor: 1.0571
@@ -1766,7 +1766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  m_Color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  m_Color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2933,7 +2933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratio: 0
-  colorA: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  colorA: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   colorB: {r: 1.0571, g: 0.83588636, b: 0.30497336, a: 1}
   parentObject: {fileID: 144927888984909932}
   vFactor: 1.0571

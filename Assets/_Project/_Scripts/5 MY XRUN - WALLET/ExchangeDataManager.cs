@@ -110,7 +110,7 @@ public class ExchangeDataManager : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Wallet data send");
+                Debug.Log($"Wallet serverData send");
                 StartCoroutine(ExchangeToken());
             }
         }

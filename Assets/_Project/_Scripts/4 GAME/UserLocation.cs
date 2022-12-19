@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 // This class handle :
 // Updating user latitude longitude
-// Sending the data into Canvas0/StatsGroup/UserLocation UI
+// Sending the serverData into Canvas0/StatsGroup/UserLocation UI
 
 public class UserLocation : MonoBehaviour
 {

@@ -26,8 +26,8 @@ public class MultipleMapPlacement : MonoBehaviour
 
         foreach(CoinData coin in serverCoinData.data)
         {
-            double latitude = Convert.ToDouble(coin.Lat) ;
-            double longitude= Convert.ToDouble(coin.Lng) ;
+            double latitude = Convert.ToDouble(coin.lat) ;
+            double longitude= Convert.ToDouble(coin.lng) ;
             //var pos = map.GeoToWorldPosition(new Mapbox.Utils.Vector2d(latitude, longitude), true);
             //var worldPos = new Vector2(pos.x, pos.z);
 

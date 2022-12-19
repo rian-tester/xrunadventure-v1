@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
         // requesting email verification
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
-            // sending data request
+            // sending serverData request
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -172,7 +172,7 @@ public class Player : MonoBehaviour
 
                 if (PlayerDataStatic.Member != null)
                 {
-                    Debug.Log($"Player number : {PlayerDataStatic.Member} data succesfully stored");
+                    Debug.Log($"Player number : {PlayerDataStatic.Member} serverData succesfully stored");
                 }
             }
         }

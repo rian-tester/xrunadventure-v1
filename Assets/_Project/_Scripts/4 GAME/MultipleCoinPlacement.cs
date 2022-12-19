@@ -1,7 +1,12 @@
 using ARLocation;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Web;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class MultipleCoinPlacement : PlaceAtLocations
 {
@@ -13,115 +18,129 @@ public class MultipleCoinPlacement : PlaceAtLocations
     [Space(2.0f)]
     [Header("Spawning Setup")]
     [SerializeField] GameController gameController;
-    [SerializeField]
-    AllCoinData serverRawData = new AllCoinData();
+    Location thisPlayerLocation;
+ 
+
+    public AllCoinData serverRawData;
+
+    public bool isCoinPopulated;
 
     [Space(2.0f)]
     [Header("Debugging")]
     [SerializeField]
     TMP_Text debugText;
+    private void Start()
+    {
+        serverRawData = new AllCoinData();
+        thisPlayerLocation = new Location();
 
-    private void OnEnable()
-    {
-        //gameController.OnModeChanged += UpdateGameMode;
-        gameController.OnAllCoinDataRetreived += SetServerData;
+        ARLocationProvider.Instance.OnEnabled.AddListener(SubscribeToArManager);
     }
-    private void OnDisable()
+
+    private void SubscribeToArManager(Location _)
     {
-        //gameController.OnModeChanged -= UpdateGameMode;
-        gameController.OnAllCoinDataRetreived -= SetServerData;
+        StartCoroutine(StartCallServer());
     }
-    void SetServerData(AllCoinData serverData)
+
+    private IEnumerator StartCallServer()
     {
-        if (serverData != null)
+        thisPlayerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+
+        string endpoint = ServerDataStatic.GetGateway();
+        UriBuilder uriBuilder = new UriBuilder(endpoint);
+        uriBuilder.Port = -1;
+        NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["act"] = "app2000-01";
+        query["member"] = PlayerDataStatic.Member.ToString();
+        query["limit"] = PlayerDataStatic.SpawnAmount.ToString();
+        query["lat"] = thisPlayerLocation.Latitude.ToString();
+        query["lng"] = thisPlayerLocation.Longitude.ToString();
+        query["os"] = "3114";
+        uriBuilder.Query = query.ToString();
+        endpoint = uriBuilder.ToString();
+
+        // web request to server
+        using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
-            serverRawData = serverData;
-        }
-        
-    }
+            yield return www.SendWebRequest();
 
-    public void PopulateCoins()
-    {
-        if (serverRawData == null) return;
-        if (!CanPlaceCoins(gameController.GetGameMode())) return;
-
-        if (debugText != null) debugText.text = serverRawData.ToString();
-        System.Random rand = new System.Random();
-        for (int i = 0; i < serverRawData.data.Count; i++)
-        {
-            CoinData prefabCoinDataComponent = myPrefab.GetComponent<CoinData>();
-
-            prefabCoinDataComponent.Coin = serverRawData.data[i].Coin;
-            prefabCoinDataComponent.Cointype = serverRawData.data[i].Cointype;
-            prefabCoinDataComponent.Amount = serverRawData.data[i].Amount;
-            prefabCoinDataComponent.Countlimit = serverRawData.data[i].Countlimit;
-            prefabCoinDataComponent.Lng = serverRawData.data[i].Lng;
-            prefabCoinDataComponent.Lat = serverRawData.data[i].Lat;
-            prefabCoinDataComponent.Distance = serverRawData.data[i].Distance;
-            prefabCoinDataComponent.Advertisement = serverRawData.data[i].Advertisement;
-            prefabCoinDataComponent.Brand = serverRawData.data[i].Brand;
-            prefabCoinDataComponent.Title = serverRawData.data[i].Title;
-            prefabCoinDataComponent.Contents = serverRawData.data[i].Contents;
-            prefabCoinDataComponent.Currency = serverRawData.data[i].Currency;
-            prefabCoinDataComponent.AdColor1 = serverRawData.data[i].AdColor1;
-            prefabCoinDataComponent.AdColor2 = serverRawData.data[i].AdColor2;
-            prefabCoinDataComponent.Coins = serverRawData.data[i].Coins;
-            prefabCoinDataComponent.AdThumbnail = serverRawData.data[i].AdThumbnail;
-            prefabCoinDataComponent.AdThumbnail = null;
-            prefabCoinDataComponent.AdThumbnail2 = serverRawData.data[i].AdThumbnail2;
-            prefabCoinDataComponent.AdThumbnail2 = null;
-            prefabCoinDataComponent.Tracking = serverRawData.data[i].Tracking;
-            prefabCoinDataComponent.Isbigcoin = serverRawData.data[i].Isbigcoin;
-            prefabCoinDataComponent.Symbol = serverRawData.data[i].Symbol;
-            prefabCoinDataComponent.BrandLogo = serverRawData.data[i].BrandLogo;
-            prefabCoinDataComponent.BrandLogo = null;
-            prefabCoinDataComponent.Symbolimg = serverRawData.data[i].Symbolimg;
-            prefabCoinDataComponent.Symbolimg = null;
-            prefabCoinDataComponent.Exad = serverRawData.data[i].Exad;
-            prefabCoinDataComponent.Exco = serverRawData.data[i].Exco;
-
-            LocationData locationData = ScriptableObject.CreateInstance<LocationData>();
-            PlaceAtLocation.LocationSettingsData locationSettinsData = new PlaceAtLocation.LocationSettingsData();
-            locationData.Location = new Location();
-
-            locationData.Location.Latitude = double.Parse(prefabCoinDataComponent.Lat, System.Globalization.CultureInfo.InvariantCulture);
-            locationData.Location.Longitude = double.Parse(prefabCoinDataComponent.Lng, System.Globalization.CultureInfo.InvariantCulture);
-            locationData.Location.Altitude = (rand.NextDouble() + 0.2);
-            locationData.Location.AltitudeMode = AltitudeMode.GroundRelative;
-            locationData.Location.Label = prefabCoinDataComponent.Coin;
-
-            locationSettinsData.LocationInput.LocationInputType = LocationPropertyData.LocationPropertyType.LocationData;
-            locationSettinsData.LocationInput.LocationData = locationData;
-            locationSettinsData.LocationInput.Location = locationData.Location;
-            locationSettinsData.LocationInput.OverrideAltitudeData.OverrideAltitude = false;
-
-            AddLocation(locationSettinsData.LocationInput.Location, myPrefab, i);
-        }
-    }
-    public void UnPopulateCoin()
-    {
-        if (serverRawData == null) return;
-        if (CanPlaceCoins(gameController.GetGameMode())) return;
-
-        Transform arLocationRoot = ARLocationManager.Instance.gameObject.transform;
-        
-        if (arLocationRoot.childCount > 0)
-        {
-            foreach (Transform child in arLocationRoot)
+            switch (www.result)
             {
-                 
-                Destroy(child.gameObject);
+                case UnityWebRequest.Result.ConnectionError:
+                    if (debugText.gameObject.activeSelf)
+                    {
+                        debugText.text = www.error;
+                    }
+                    
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    if (debugText.gameObject.activeSelf)
+                    {
+                        debugText.text = www.error;
+                    }
+                    
+                    break;
+                case UnityWebRequest.Result.Success:
+                    var rawData = www.downloadHandler.text;
+                    serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
+
+                    System.Random rand = new System.Random();
+                    for (int i = 0; i < serverRawData.data.Count; i++)
+                    {
+                        CoinDataComponent prefabCoinDataComponent = myPrefab.GetComponent<CoinDataComponent>();
+
+                        prefabCoinDataComponent.coin = serverRawData.data[i].coin;
+                        prefabCoinDataComponent.cointype = serverRawData.data[i].cointype;
+                        prefabCoinDataComponent.amount = serverRawData.data[i].amount;
+                        prefabCoinDataComponent.countlimit = serverRawData.data[i].countlimit;
+                        prefabCoinDataComponent.lng = serverRawData.data[i].lng;
+                        prefabCoinDataComponent.lat = serverRawData.data[i].lat;
+                        prefabCoinDataComponent.distance = serverRawData.data[i].distance;
+                        prefabCoinDataComponent.advertisement = serverRawData.data[i].advertisement;
+                        prefabCoinDataComponent.brand = serverRawData.data[i].brand;
+                        prefabCoinDataComponent.title = serverRawData.data[i].title;
+                        prefabCoinDataComponent.contents = serverRawData.data[i].contents;
+                        prefabCoinDataComponent.currency = serverRawData.data[i].currency;
+                        prefabCoinDataComponent.adColor1 = serverRawData.data[i].adColor1;
+                        prefabCoinDataComponent.adColor2 = serverRawData.data[i].adColor2;
+                        prefabCoinDataComponent.coins = serverRawData.data[i].coins;
+                        prefabCoinDataComponent.adThumbnail = serverRawData.data[i].adThumbnail;
+                        prefabCoinDataComponent.adThumbnail = null;
+                        prefabCoinDataComponent.adThumbnail2 = serverRawData.data[i].adThumbnail2;
+                        prefabCoinDataComponent.adThumbnail2 = null;
+                        prefabCoinDataComponent.tracking = serverRawData.data[i].tracking;
+                        prefabCoinDataComponent.isBigcoin = serverRawData.data[i].isBigcoin;
+                        prefabCoinDataComponent.symbol = serverRawData.data[i].symbol;
+                        prefabCoinDataComponent.brandLogo = serverRawData.data[i].brandLogo;
+                        prefabCoinDataComponent.brandLogo = null;
+                        prefabCoinDataComponent.symbolimg = serverRawData.data[i].symbolimg;
+                        prefabCoinDataComponent.symbolimg = null;
+                        prefabCoinDataComponent.exad = serverRawData.data[i].exad;
+                        prefabCoinDataComponent.exco = serverRawData.data[i].exco;
+
+                        LocationData locationData = ScriptableObject.CreateInstance<LocationData>();
+                        PlaceAtLocation.LocationSettingsData locationSettinsData = new PlaceAtLocation.LocationSettingsData();
+                        locationData.Location = new Location();
+
+                        locationData.Location.Latitude = double.Parse(prefabCoinDataComponent.lat, System.Globalization.CultureInfo.InvariantCulture);
+                        locationData.Location.Longitude = double.Parse(prefabCoinDataComponent.lng, System.Globalization.CultureInfo.InvariantCulture);
+                        locationData.Location.Altitude = (rand.NextDouble() + 0.2);
+                        locationData.Location.AltitudeMode = AltitudeMode.GroundRelative;
+                        locationData.Location.Label = prefabCoinDataComponent.coin;
+
+                        locationSettinsData.LocationInput.LocationInputType = LocationPropertyData.LocationPropertyType.LocationData;
+                        locationSettinsData.LocationInput.LocationData = locationData;
+                        locationSettinsData.LocationInput.Location = locationData.Location;
+                        locationSettinsData.LocationInput.OverrideAltitudeData.OverrideAltitude = false;
+
+                        AddLocation(locationSettinsData.LocationInput.Location, myPrefab, i);
+                    }
+
+                    isCoinPopulated = true;
+
+                    break;
             }
         }
-        Debug.Log($"total object in AR DragLocation root {arLocationRoot.childCount}");
-    }
-    bool CanPlaceCoins(GameMode currentGameMode)
-    {
-        if (currentGameMode == GameMode.Catch)
-        {
-            return true;
-        }
-        return false;
-    }
 
+    }
 }

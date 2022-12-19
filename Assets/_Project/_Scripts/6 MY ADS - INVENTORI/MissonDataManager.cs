@@ -33,7 +33,7 @@ public class MissonDataManager : MonoBehaviour
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
 
-        // requesting mission data
+        // requesting mission serverData
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
             yield return www.SendWebRequest();

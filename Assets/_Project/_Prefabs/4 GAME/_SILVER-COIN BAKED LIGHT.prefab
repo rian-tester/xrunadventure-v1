@@ -72962,13 +72962,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6021455195723468705}
   - component: {fileID: 6784613112679143612}
-  - component: {fileID: 65660784365339029}
   - component: {fileID: 555074882489421028}
   - component: {fileID: 4104806007221543259}
   - component: {fileID: 8451055172446074426}
   - component: {fileID: 6193937925983114103}
   - component: {fileID: 6645332528599067315}
   - component: {fileID: 1585761458315712891}
+  - component: {fileID: 8589775831843861210}
   m_Layer: 7
   m_Name: _SILVER-COIN BAKED LIGHT
   m_TagString: Untagged
@@ -73007,41 +73007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6baa0d3a53855574b867da0a9e005b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisCoinData: {fileID: 0}
   yRotationSpeed: 1
   delayTime: 3.5
---- !u!114 &65660784365339029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6402800580874949915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff0d57cf429ca4bbfc90a2cf5d341f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coin: 11262389
-  cointype: 9411
-  amount: 0
-  countlimit: 1
-  lng: 106.746847
-  lat: -6.084872
-  distance: 4.668410791781771
-  advertisement: 668
-  brand: XRUN
-  title: xrun
-  contents: "\u3153\u3153"
-  currency: 11
-  adColor1: '#283750'
-  adColor2: '#283750'
-  coins: 0.01
-  adThumbnail: 
-  tracking: 
-  isBigcoin: 0
-  symbol: XRUN
-  exad: 
-  exco: 
 --- !u!135 &555074882489421028
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -73234,6 +73202,42 @@ MonoBehaviour:
   - light: {fileID: 1443971574643665510}
     lightmapBaketype: 4
     mixedLightingMode: 2
+--- !u!114 &8589775831843861210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6402800580874949915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e770b61fe6291a64091fef9805b19500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coin: 
+  cointype: 
+  amount: 
+  countlimit: 
+  lng: 
+  lat: 
+  distance: 
+  advertisement: 
+  brand: 
+  title: 
+  contents: 
+  currency: 
+  adColor1: 
+  adColor2: 
+  coins: 
+  adThumbnail: 
+  tracking: 
+  isBigcoin: 
+  symbol: 
+  exad: 
+  exco: 
+  adThumbnail2: 
+  brandLogo: 
+  symbolimg: 
 --- !u!1 &6834570761052056819
 GameObject:
   m_ObjectHideFlags: 0

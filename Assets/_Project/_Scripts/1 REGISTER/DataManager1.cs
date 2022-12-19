@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 // Exist in hierarchy
 
 // This class handle : 
-// Retrieving data from Unity UI Input field
+// Retrieving serverData from Unity UI Input field
 // Communicating with server for registration process
 
 
@@ -135,7 +135,7 @@ public class DataManager1 : MonoBehaviour
     }
     IEnumerator EmailVerification()
     {
-        // store registration data in instance
+        // store registration serverData in instance
         newMember = new RegistrationForm();
         newMember.Firstname = fullName.text.ToString();
         newMember.Email = email.text.ToString();

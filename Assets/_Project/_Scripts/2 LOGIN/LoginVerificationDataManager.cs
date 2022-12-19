@@ -76,14 +76,14 @@ public class LoginVerificationDataManager : Fields
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "login")
+                if (json.GetString("serverData") == "login")
                 {
                     if (OnCodeCorrect != null)
                     {
                         OnCodeCorrect();
                     }
                 }
-                else if (json.GetString("data") == "false")
+                else if (json.GetString("serverData") == "false")
                 {
                     if (OnCodeNotCorrect != null)
                     {

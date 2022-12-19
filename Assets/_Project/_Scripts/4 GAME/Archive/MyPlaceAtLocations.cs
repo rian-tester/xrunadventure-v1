@@ -63,14 +63,14 @@ public class MyPlaceAtLocations : PlaceAtLocations
 
         if (spawnAmount > 0)
         {
-            Debug.LogWarning("Server data still exist so populate from last data");
-            debugText.text = "Server data still exist so populate from last data";
+            Debug.LogWarning("Server serverData still exist so populate from last serverData");
+            debugText.text = "Server serverData still exist so populate from last serverData";
             PopulateCoins(serverRawData);
         }
         else if (spawnAmount == 0 || spawnAmount < 1)
         {
-            Debug.LogWarning("No data in server, so call server again");
-            debugText.text = "No data in server, so call server again";
+            Debug.LogWarning("No serverData in server, so call server again");
+            debugText.text = "No serverData in server, so call server again";
             int randomSpawnAmount = UnityEngine.Random.Range(200, 501);
             spawnAmount = randomSpawnAmount;
             StartCoroutine(CallServer(spawnAmount));
@@ -109,14 +109,14 @@ public class MyPlaceAtLocations : PlaceAtLocations
             }
             else
             {
-                debugText.text = "succesfully calling raw data from server";
+                debugText.text = "succesfully calling raw serverData from server";
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 // store into costum class
                 serverRawData = new ServerCoinData();
                 serverRawData = JsonConvert.DeserializeObject<ServerCoinData>(rawData);
                 serverResults = rawData;
-                debugText.text = "succesfully deserialize server data into custom class";
+                debugText.text = "succesfully deserialize server serverData into custom class";
 
                 Debug.Log($"Total coins is {serverRawData.data.Count}");
 
@@ -135,44 +135,47 @@ public class MyPlaceAtLocations : PlaceAtLocations
         {
             CoinData prefabCoinDataComponent = myPrefab.GetComponent<CoinData>();
 
-            prefabCoinDataComponent.Coin = coinsData.data[i].Coin;
-            prefabCoinDataComponent.Cointype = coinsData.data[i].Cointype;
-            prefabCoinDataComponent.Amount = coinsData.data[i].Amount;
-            prefabCoinDataComponent.Countlimit = coinsData.data[i].Countlimit;
-            prefabCoinDataComponent.Lng = coinsData.data[i].Lng;
-            prefabCoinDataComponent.Lat = coinsData.data[i].Lat;
-            prefabCoinDataComponent.Distance = coinsData.data[i].Distance;
-            prefabCoinDataComponent.Advertisement = coinsData.data[i].Advertisement;
-            prefabCoinDataComponent.Brand = coinsData.data[i].Brand;
-            prefabCoinDataComponent.Title = coinsData.data[i].Title;
-            prefabCoinDataComponent.Contents = coinsData.data[i].Contents;
-            prefabCoinDataComponent.Currency = coinsData.data[i].Currency;
-            prefabCoinDataComponent.AdColor1 = coinsData.data[i].AdColor1;
-            prefabCoinDataComponent.AdColor2 = coinsData.data[i].AdColor2;
-            prefabCoinDataComponent.Coins = coinsData.data[i].Coins;
-            //prefabCoinDataComponent.AdThumbnail = coinsData.data[i].AdThumbnail;
-            prefabCoinDataComponent.AdThumbnail = null;
-            //prefabCoinDataComponent.AdThumbnail2 = coinsData.data[i].AdThumbnail2;
-            prefabCoinDataComponent.AdThumbnail2 = null;
-            prefabCoinDataComponent.Tracking = coinsData.data[i].Tracking;
-            prefabCoinDataComponent.Isbigcoin = coinsData.data[i].Isbigcoin;
-            prefabCoinDataComponent.Symbol = coinsData.data[i].Symbol;
-            //prefabCoinDataComponent.BrandLogo = coinsData.data[i].BrandLogo;
-            prefabCoinDataComponent.BrandLogo = null;
-            //prefabCoinDataComponent.Symbolimg = coinsData.data[i].Symbolimg;
-            prefabCoinDataComponent.Symbolimg = null;
-            prefabCoinDataComponent.Exad = coinsData.data[i].Exad;
-            prefabCoinDataComponent.Exco = coinsData.data[i].Exco;
+
+
+
+            prefabCoinDataComponent.coin = serverRawData.data[i].coin;
+            prefabCoinDataComponent.cointype = serverRawData.data[i].cointype;
+            prefabCoinDataComponent.amount = serverRawData.data[i].amount;
+            prefabCoinDataComponent.countlimit = serverRawData.data[i].countlimit;
+            prefabCoinDataComponent.lng = serverRawData.data[i].lng;
+            prefabCoinDataComponent.lat = serverRawData.data[i].lat;
+            prefabCoinDataComponent.distance = serverRawData.data[i].distance;
+            prefabCoinDataComponent.advertisement = serverRawData.data[i].advertisement;
+            prefabCoinDataComponent.brand = serverRawData.data[i].brand;
+            prefabCoinDataComponent.title = serverRawData.data[i].title;
+            prefabCoinDataComponent.contents = serverRawData.data[i].contents;
+            prefabCoinDataComponent.currency = serverRawData.data[i].currency;
+            prefabCoinDataComponent.adColor1 = serverRawData.data[i].adColor1;
+            prefabCoinDataComponent.adColor2 = serverRawData.data[i].adColor2;
+            prefabCoinDataComponent.coins = serverRawData.data[i].coins;
+            prefabCoinDataComponent.adThumbnail = serverRawData.data[i].adThumbnail;
+            prefabCoinDataComponent.adThumbnail = null;
+            prefabCoinDataComponent.adThumbnail2 = serverRawData.data[i].adThumbnail2;
+            prefabCoinDataComponent.adThumbnail2 = null;
+            prefabCoinDataComponent.tracking = serverRawData.data[i].tracking;
+            prefabCoinDataComponent.isBigcoin = serverRawData.data[i].isBigcoin;
+            prefabCoinDataComponent.symbol = serverRawData.data[i].symbol;
+            prefabCoinDataComponent.brandLogo = serverRawData.data[i].brandLogo;
+            prefabCoinDataComponent.brandLogo = null;
+            prefabCoinDataComponent.symbolimg = serverRawData.data[i].symbolimg;
+            prefabCoinDataComponent.symbolimg = null;
+            prefabCoinDataComponent.exad = serverRawData.data[i].exad;
+            prefabCoinDataComponent.exco = serverRawData.data[i].exco;
 
             LocationData locationData = ScriptableObject.CreateInstance<LocationData>();
             PlaceAtLocation.LocationSettingsData locationSettinsData = new PlaceAtLocation.LocationSettingsData();
             locationData.Location = new Location();
 
-            locationData.Location.Latitude = double.Parse(prefabCoinDataComponent.Lat, System.Globalization.CultureInfo.InvariantCulture);
-            locationData.Location.Longitude = double.Parse(prefabCoinDataComponent.Lng, System.Globalization.CultureInfo.InvariantCulture);
+            locationData.Location.Latitude = double.Parse(prefabCoinDataComponent.lat, System.Globalization.CultureInfo.InvariantCulture);
+            locationData.Location.Longitude = double.Parse(prefabCoinDataComponent.lng, System.Globalization.CultureInfo.InvariantCulture);
             locationData.Location.Altitude = (rand.NextDouble() + 0.2);
             locationData.Location.AltitudeMode = AltitudeMode.GroundRelative;
-            locationData.Location.Label = prefabCoinDataComponent.Coin;
+            locationData.Location.Label = prefabCoinDataComponent.coin;
 
             locationSettinsData.LocationInput.LocationInputType = LocationPropertyData.LocationPropertyType.LocationData;
             locationSettinsData.LocationInput.LocationData = locationData;
@@ -198,8 +201,8 @@ public class MyPlaceAtLocations : PlaceAtLocations
                 CoinData coinData = coin.GetComponent<CoinData>();
                 var newLocation = new Location()
                 {
-                    Latitude = Convert.ToDouble(coinData.Lat),
-                    Longitude = Convert.ToDouble(coinData.Lng),
+                    Latitude = Convert.ToDouble(coinData.lat),
+                    Longitude = Convert.ToDouble(coinData.lng),
                     AltitudeMode = AltitudeMode.GroundRelative
                 };
                 var placeAtLocation = coin.GetComponent<PlaceAtLocation>();

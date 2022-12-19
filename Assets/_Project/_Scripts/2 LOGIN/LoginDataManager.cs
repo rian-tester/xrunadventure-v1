@@ -171,12 +171,12 @@ public class LoginDataManager : Fields
                 
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "true")
+                if (json.GetString("serverData") == "true")
                 {
                     // if email exist please continue login
                     OnEmailAlreadyExist();
                 }
-                else if (json.GetString("data") == "false")
+                else if (json.GetString("serverData") == "false")
                 {
                     // if email not exist please register first
                      OnEmailNotExist();

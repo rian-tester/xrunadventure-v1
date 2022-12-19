@@ -10,32 +10,24 @@ using UnityEngine.Networking;
 
 public class CoinAvailableUI : MonoBehaviour
 {
-
-    [SerializeField] GameController gameController; 
-
+    [SerializeField] MapController mapController;   
     [SerializeField] TMP_Text coinAvailableText;
 
-    AllCoinData thisServerData = new AllCoinData();
     private void Awake()
     {
         if (coinAvailableText == null)
         {
             coinAvailableText.GetComponent<CoinAvailableUI>();
         }
-        gameController.OnAllCoinDataRetreived += UpdateText;
+        mapController.OnCoinMarkerPopulated += UpdateText;
     }
     private void OnDestroy()
     {
-        gameController.OnAllCoinDataRetreived -= UpdateText;
+        mapController.OnCoinMarkerPopulated -= UpdateText;
     }
 
-    void UpdateText(AllCoinData serverData)
+    void UpdateText(string advertisement, string coinAmount)
     {
-        thisServerData = serverData;
-        if (serverData != null)
-        {
-            coinAvailableText.text = $"Terdapat {serverData.data[0].Advertisement} Merek Advertisement dan {serverData.data.Count} coin untuk dikumpulkan";
-        }
+       coinAvailableText.text = $"Terdapat {advertisement} Merek Advertisement dan {coinAmount} coin untuk dikumpulkan";
     }
-
 }

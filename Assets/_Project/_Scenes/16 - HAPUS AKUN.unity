@@ -377,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a0ef7cd6c4ea74897614f3858a75e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  memberName: {fileID: 0}
 --- !u!1 &317311003
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 1, g: 0.70980394, b: 0, a: 1}
-  colorB: {r: 0.29019612, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 1318764632}
   vFactor: 1
   sFactor: 1
@@ -1176,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6729d2bee20bbe408f4b1cee329d9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   value: 0
   valueChangedEvent:
     m_PersistentCalls:
@@ -1980,7 +1981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6729d2bee20bbe408f4b1cee329d9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   value: 0
   valueChangedEvent:
     m_PersistentCalls:
@@ -2715,7 +2716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 1, g: 0.70980394, b: 0, a: 1}
-  colorB: {r: 0.29019612, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 945461346}
   vFactor: 1
   sFactor: 1
@@ -3361,7 +3362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6729d2bee20bbe408f4b1cee329d9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.2901961, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   value: 0
   valueChangedEvent:
     m_PersistentCalls:
@@ -3473,7 +3474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 1, g: 0.70980394, b: 0, a: 1}
-  colorB: {r: 0.29019612, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 5066914438258349671}
   vFactor: 1
   sFactor: 1

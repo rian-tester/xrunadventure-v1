@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 1428623144853380520}
   value: 0
   clickedEvent:
@@ -3938,7 +3938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 1205786162191423850}
   vFactor: 1
   sFactor: 1
@@ -4532,7 +4532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 4666995978479962507}
   value: 0
   clickedEvent:
@@ -4700,7 +4700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 4666995978479962507}
   value: 1
   clickedEvent:
@@ -4901,7 +4901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 4666995978479962507}
   value: 0
   clickedEvent:
@@ -4964,7 +4964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 4666995978479962507}
   value: 0
   clickedEvent:
@@ -5044,7 +5044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607844, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 4666995978479962507}
   value: 0
   clickedEvent:
@@ -5481,7 +5481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 8940513974454885587}
   vFactor: 1
   sFactor: 1
@@ -7165,7 +7165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 1205786162191423850}
   vFactor: 1
   sFactor: 1
@@ -7293,7 +7293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 8940513974454885587}
   vFactor: 1
   sFactor: 1
@@ -7733,7 +7733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71b3d0ab154c1a49a79f44fd3cc7c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  color: {r: 0.09019608, g: 0.39607847, b: 0.72156864, a: 1}
   buttonGroup: {fileID: 1428623144853380520}
   value: 1
   clickedEvent:
@@ -9626,7 +9626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978226852741}
   vFactor: 1
   sFactor: 1
@@ -9948,7 +9948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995979184927890}
   vFactor: 1
   sFactor: 1
@@ -10520,7 +10520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978511966645}
   vFactor: 1
   sFactor: 1
@@ -10708,7 +10708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978226852741}
   vFactor: 1
   sFactor: 1
@@ -10783,7 +10783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995979450057602}
   vFactor: 1
   sFactor: 1
@@ -11012,7 +11012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995979450057602}
   vFactor: 1
   sFactor: 1
@@ -11465,7 +11465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995979184927890}
   vFactor: 1
   sFactor: 1
@@ -12040,7 +12040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978466406968}
   vFactor: 1
   sFactor: 1
@@ -12336,7 +12336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978511966645}
   vFactor: 1
   sFactor: 1
@@ -12619,7 +12619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratio: 0
   colorA: {r: 0.55, g: 0.55, b: 0.55, a: 1}
-  colorB: {r: 0.3019608, g: 0, b: 0.3019608, a: 1}
+  colorB: {r: 0.09019608, g: 0.3960783, b: 0.72156864, a: 1}
   parentObject: {fileID: 4666995978466406968}
   vFactor: 1
   sFactor: 1

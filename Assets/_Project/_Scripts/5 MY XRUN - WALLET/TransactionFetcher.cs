@@ -63,7 +63,7 @@ public class TransactionFetcher : MonoBehaviour
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
 
-        // requesting transaction data
+        // requesting transaction serverData
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
             yield return www.SendWebRequest();
@@ -106,7 +106,7 @@ public class TransactionFetcher : MonoBehaviour
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
 
-        // requesting transaction data
+        // requesting transaction serverData
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
             yield return www.SendWebRequest();
@@ -148,7 +148,7 @@ public class TransactionFetcher : MonoBehaviour
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
 
-        // requesting transaction data
+        // requesting transaction serverData
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
             yield return www.SendWebRequest();

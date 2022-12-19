@@ -67,7 +67,7 @@ public class AdvertisementDataManager : MonoBehaviour
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
 
-        // requesting advertisement data
+        // requesting advertisement serverData
         using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
             yield return www.SendWebRequest();

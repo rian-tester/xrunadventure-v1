@@ -49,7 +49,7 @@ public class FaqDataManager : MonoBehaviour
                 FaqItemArray serverRawData;
 
                 yield return serverRawData = JsonConvert.DeserializeObject<FaqItemArray>(rawData);
-                //Debug.Log($"Result of server call for FAQ : {serverRawData.data.Count}");
+                //Debug.Log($"Result of server call for FAQ : {serverRawData.serverData.Count}");
                 foreach (Transform child in parent)
                 {
                     Destroy(child.gameObject);
@@ -64,8 +64,8 @@ public class FaqDataManager : MonoBehaviour
                     var faqItemDataInstance = faqItem.GetComponent<FaqItem>();
                     faqItemDataInstance.Question = serverRawData.data[i].title;
                     faqItemDataInstance.Answer = serverRawData.data[i].contents;
-                    //Debug.Log($"Checking question no {i + 1} : question is {serverRawData.data[i].title}");
-                    //Debug.Log($"Checking answer no {i + 1} : answer is {serverRawData.data[i].contents}");
+                    //Debug.Log($"Checking question no {i + 1} : question is {serverRawData.serverData[i].title}");
+                    //Debug.Log($"Checking answer no {i + 1} : answer is {serverRawData.serverData[i].contents}");
                     faqItemDataInstance.Setup();              
                 }
                 Debug.Log(serverRawData.data.Count);

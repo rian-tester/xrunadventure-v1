@@ -77,6 +77,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/_Scenes/23 - QR-SCAN.unity
     guid: e6386158a8bb8014294e3cf13a7a93bc
+  - enabled: 0
+    path: Assets/_Project/_Scenes/Web Request.unity
+    guid: d242d1a595427a542b82579f3410f5de
   m_configObjects:
     AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: b0acb8ddb56ac1c4eb280a7f8e296956, type: 2}
     AR Foundation RemoteARFoundationRemoteSessionRecordsData: {fileID: 11400000, guid: c614fca9d25c2bc438469f865c8913a2, type: 2}

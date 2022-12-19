@@ -1,14 +1,8 @@
 using AppsFlyerSDK;
-using ARLocation;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Web;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
@@ -29,63 +23,40 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     
     [SerializeField] TMP_Text loadingText;
     [SerializeField] GameObject loadingPanel;
-    [SerializeField]
-    AllCoinData serverRawData;
 
     [SerializeField] TMP_Text debugText;
-    [SerializeField] TMP_Text debugTextLocation;
+    [SerializeField] GameMode gameMode;
 
-    int spawnAmount = 10;
-    double playerLatitude;
-    double playerLongitude;
+    public bool isTheGameStart;
 
-    [SerializeField] GameMode gameMode = GameMode.Map;
-
-    public event Action OnModeChanged;
-    public event Action<Location> OnPlayerLocationRetreived;
-    public event Action<AllCoinData> OnAllCoinDataRetreived;
-    public event Action OnAllCoinDataFailed;
-    public event Action OnMapModeActive;
-    public event Action OnCatchModeActive;
-
+    private void Awake()
+    {
+        PlayerDataStatic.SpawnAmount = PlayerDataStatic.GetRandomNumber();
+    }
     private void Start()
     {
         anim = GetComponent<Animation>();
-        gameMode = GameMode.None;
         loadingPanel.SetActive(true);
-        loadingText.text = "Getting your location for server call";
-        ARLocationProvider.Instance.OnEnabled.AddListener(StartCallServer);
-        Debug.Log("listener added");
-        debugText.text = "Awake complete";
+        loadingText.text = "Please wait while we're communicating with server";
+        isTheGameStart = false;
+        gameMode = GameMode.None;
+
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    private void Update()
     {
-        
-        if (gameMode == GameMode.Map || gameMode == GameMode.None)
+        // this line of code executed when MapController.cs and MultipleCoinPlacement.cs finished with poppulating coin data
+        if (isTheGameStart == false)
         {
-            gameMode = GameMode.Catch;
-            Animate();
-            ChangeButtonSprite();
-            ChangeGameMode(gameMode);
+            if (mapController.isCoinPopulated == true && multipleCoinPlacement.isCoinPopulated == true)
+            {
+                loadingPanel.SetActive(false);
+                gameMode = GameMode.Map;
+                isTheGameStart = true;
+            }
+        }
+    }
 
-        }
-        else if (gameMode == GameMode.Catch || gameMode == GameMode.None)
-        {
-            gameMode = GameMode.Map;
-            Animate();
-            ChangeButtonSprite();
-            ChangeGameMode(gameMode);
-        }
-    }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // Empty on purpose
-    }
-    public GameMode GetGameMode()
-    {
-        return gameMode;
-    }
     private void ChangeButtonSprite()
     {
         if (gameMode == GameMode.Catch)
@@ -125,29 +96,36 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 if (!MapItems.activeSelf) MapItems.gameObject.SetActive(true);
                 OnlineMaps.instance.Redraw();
                 mapLighting.gameObject.SetActive(true);
-                //mapController.PopulateCoinMarker();
+
+                if (debugText.gameObject.activeSelf)
+                {
+                    debugText.text = $"Amount of mapController Server Data : {mapController.thisAllCoinData.data.Count}";
+                    debugText.text = debugText.text + $"\n Amount om map marker : {OnlineMapsMarkerManager.instance.Count}";
+                }
+                
 
                 //Catch
-                multipleCoinPlacement.UnPopulateCoin();
                 arSession.SetActive(false);
                 arSessionOrigin.SetActive(false);
                 environmentLighting.gameObject.SetActive(false);
-                
                 break;
+
+
                 case GameMode.Catch:
                 // Catch
                 arSession.SetActive(true);
                 arSessionOrigin.SetActive(true);
-                multipleCoinPlacement.PopulateCoins();
                 environmentLighting.gameObject.SetActive(true);
 
+                if (debugText.gameObject.activeSelf)
+                {
+                    debugText.text = $" Amount of multipleCoinPlacement Server data : {multipleCoinPlacement.serverRawData.data.Count}";
+                }
+                
                 // Map
                 mapImage.gameObject.SetActive(false);
                 MapItems.gameObject.SetActive(false);
                 mapLighting.gameObject.SetActive(false);
-                //mapController.UnpopulateCoinMarker();
-
-                
                 break;
 
             case GameMode.None:
@@ -156,139 +134,32 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
         }
     }
-    void StartCallServer()
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        loadingText.text = "Your location is succesfully retrieved";
-        if (spawnAmount > 0)
+
+        if (gameMode == GameMode.Map || gameMode == GameMode.None)
         {
-            StartCoroutine(CallServer(spawnAmount));
+            gameMode = GameMode.Catch;
+            Animate();
+            ChangeButtonSprite();
+            ChangeGameMode(gameMode);
+
         }
-        else if (spawnAmount == 0 || spawnAmount < 1)
+        else if (gameMode == GameMode.Catch || gameMode == GameMode.None)
         {
-            int randomSpawnAmount = UnityEngine.Random.Range(200, 501);
-            spawnAmount = randomSpawnAmount;
-            StartCoroutine(CallServer(spawnAmount));
+            gameMode = GameMode.Map;
+            Animate();
+            ChangeButtonSprite();
+            ChangeGameMode(gameMode);
         }
     }
-    void StartCallServer(Location _)
+    public void OnPointerUp(PointerEventData eventData)
     {
-        loadingText.text = "Your location is succesfully retrieved";
-        if (spawnAmount > 0)
-        {
-            StartCoroutine(CallServer(spawnAmount));    
-        }
-        else if (spawnAmount == 0 || spawnAmount < 1)
-        {
-            int randomSpawnAmount = UnityEngine.Random.Range(200, 501);
-            spawnAmount = randomSpawnAmount;
-            StartCoroutine(CallServer(spawnAmount));
-            debugText.text = "Start call server complete";
-        }
+        // Empty on purpose
     }
-    IEnumerator CallServer(int spawnAmountFinal)
+    public GameMode GetGameMode()
     {
-        debugText.text = "Call server begin ";
-        if (loadingText != null)loadingText.text = "Please wait we are loading your data from server based on your location";
-        if (!loadingPanel.activeSelf)
-        {
-            loadingPanel.SetActive(true);
-        }
-
-        if (playerLatitude == 0 || playerLongitude == 0)
-        {
-            // retreive player geo location
-            Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
-            playerLatitude = playerLocation.Latitude;
-            playerLongitude = playerLocation.Longitude;
-            debugText.text = $"Retreive player geo location {playerLatitude}, {playerLatitude}";
-        }
-       
-
-        // AF events
-        //AppsFlyer.recordLocation(playerLocation.Latitude, playerLocation.Longitude);
-
-        if (playerLatitude == 0 || playerLongitude == 0)
-        {
-            debugText.text = "Lat Lon still zero after try to get";
-            //if (OnUserLocationNotEnabled != null)
-            //{
-            //    OnUserLocationNotEnabled();
-            //    yield break;
-            //}
-            loadingText.text = "It look like something wrong with your location data, please activate your location service or give access to our app";
-            yield return new WaitForSeconds(2f);
-            loadingPanel.SetActive(false);
-            yield break;
-        }
-
-
-
-        // building query
-        debugText.text = "Start building query";
-        string endpoint = ServerDataStatic.GetGateway();
-        var uriBuilder = new UriBuilder(endpoint);
-        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["act"] = "coinmapping";
-        query["member"] = PlayerDataStatic.Member.ToString();
-        query["limit"] = spawnAmountFinal.ToString();
-        query["lat"] = playerLatitude.ToString();
-        query["lng"] = playerLongitude.ToString();
-        query["os"] = "3114";
-        uriBuilder.Query = query.ToString();
-        endpoint = uriBuilder.ToString();
-
-        // web request to server
-        using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                if (OnAllCoinDataFailed != null)
-                {
-                    OnAllCoinDataFailed();
-                }
-                debugText.text = "Web request failed ";
-                Debug.Log(www.error);
-                loadingPanel.SetActive(false);
-            }
-            else
-            {
-
-                // cahching request response
-                string rawData = www.downloadHandler.text;
-                // store into costum class
-                serverRawData = new AllCoinData();
-                serverRawData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
-                if (serverRawData.data.Count == 0)
-                {
-                    debugText.text = "Waiting 5 second because data array is 0";
-                    yield return new WaitForSeconds(5f);
-                }
-
-                
-                debugTextLocation.text = $"Device Location result = {playerLatitude}, {playerLongitude}";
-                debugText.text = $"Raw server result = {www.downloadHandler.text}";
-
-                if (OnPlayerLocationRetreived != null)
-                {
-                    Location playerLocation = new Location(playerLatitude, playerLongitude);
-                    OnPlayerLocationRetreived(playerLocation);
-                }
-
-                
-                loadingPanel.SetActive(false);
-                gameMode = GameMode.Map;
-                ChangeGameMode(gameMode);
-
-                if (OnAllCoinDataRetreived != null)
-                {
-
-                  if (serverRawData.data.Count > 0) OnAllCoinDataRetreived(serverRawData);
-
-                }
-
-            }
-        }
+        return gameMode;
     }
 }

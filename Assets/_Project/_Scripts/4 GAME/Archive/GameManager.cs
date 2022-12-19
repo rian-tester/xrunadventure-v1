@@ -7,7 +7,6 @@ using System;
 public class GameManager : Panel
 {
     [SerializeField] UserLocation userLocation;
-    [SerializeField] GameController gameController;
     
     [Header("Controlling")]
     [SerializeField] AudioManager audioManager;
@@ -31,8 +30,6 @@ public class GameManager : Panel
     private void OnEnable()
     {
         userLocation.OnUserLocationNotAvailable += ActionUserLocationNotAvailable;
-        gameController.OnAllCoinDataFailed += ActionAllCoinDataFailed;
-
     }
 
     
@@ -92,11 +89,4 @@ public class GameManager : Panel
     {
         ShowPromptTextPanelForSeconds(userLocationNotAvailable, 1.5f);
     }
-    void ActionAllCoinDataFailed()
-    {
-        string allCoinDataFailed = "Web request not completed or error";
-        ShowPromptTextPanelForSeconds(allCoinDataFailed, 1.5f);
-    }
-
-
 }

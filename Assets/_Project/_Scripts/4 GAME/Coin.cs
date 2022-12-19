@@ -28,7 +28,7 @@ public class Coin : MonoBehaviour
     }
 
     Player playerRef;
-    CoinData thisCoinData;
+    public CoinDataComponent thisCoinData;
 
     [SerializeField] float yRotationSpeed;
     [SerializeField] float delayTime;
@@ -39,7 +39,7 @@ public class Coin : MonoBehaviour
     void OnEnable()
     {
         // caching
-        thisCoinData = GetComponent<CoinData>();
+        thisCoinData = GetComponent<CoinDataComponent>();
 
         // define y axis rotation
         int randomSwitch = UnityEngine.Random.Range(1, 3);
@@ -62,7 +62,7 @@ public class Coin : MonoBehaviour
     }
     public Sprite GetCoinAdThumbnail()
     {
-        string str = thisCoinData.AdThumbnail2;
+        string str = thisCoinData.adThumbnail2;
         byte[] imageBytes = Convert.FromBase64String(str);
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(imageBytes);
@@ -71,7 +71,7 @@ public class Coin : MonoBehaviour
     }
     public Sprite GetCoinBrandLogo()
     {
-        string str = thisCoinData.BrandLogo;
+        string str = thisCoinData.brandLogo;
         byte[] imageBytes = Convert.FromBase64String(str);
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(imageBytes);
@@ -80,7 +80,7 @@ public class Coin : MonoBehaviour
     }
     public Sprite GetCoinSymbolLogo()
     {
-        string str = thisCoinData.Symbolimg;
+        string str = thisCoinData.symbolimg;
         byte[] imageBytes = Convert.FromBase64String(str);
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(imageBytes);
@@ -100,8 +100,8 @@ public class Coin : MonoBehaviour
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
         query["act"] = "app3000-02";
         query["member"] = PlayerDataStatic.Member;
-        query["coin"] = thisCoinData.Coin;
-        query["advertisement"] = thisCoinData.Advertisement;
+        query["coin"] = thisCoinData.coin;
+        query["advertisement"] = thisCoinData.advertisement;
         query["os"] = "3114";
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
@@ -130,7 +130,7 @@ public class Coin : MonoBehaviour
                 {
                     Debug.Log("Coin not exist anymore");
                     // TO DO 
-                    // Show prompt : this coin data is not updated we will restart fetching data
+                    // Show prompt : this coin serverData is not updated we will restart fetching serverData
                 }
                 else if (responseData.data[0].Count == "1")
                 {
@@ -150,7 +150,7 @@ public class Coin : MonoBehaviour
                 {
                     RemoveCoinFromWorld();
                     // TO DO
-                    // Show prompt : this coin not exist we will restart fetching data
+                    // Show prompt : this coin not exist we will restart fetching serverData
                 }
 
             }
@@ -172,8 +172,8 @@ public class Coin : MonoBehaviour
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
         query["act"] = "nd-1001";
         query["member"] = PlayerDataStatic.Member;
-        query["coin"] = thisCoinData.Coin;
-        query["advertisement"] = thisCoinData.Advertisement;
+        query["coin"] = thisCoinData.coin;
+        query["advertisement"] = thisCoinData.advertisement;
         query["os"] = "3114";
         uriBuilder.Query = query.ToString();
         endpoint = uriBuilder.ToString();
@@ -206,7 +206,5 @@ public class Coin : MonoBehaviour
         StopAllCoroutines();
         gameObject.SetActive(false);
         Destroy(gameObject);
-        
-        
     }
 }

@@ -138,7 +138,7 @@ public class RegisterVerificationDataManager : Fields
             {
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "ok")
+                if (json.GetString("serverData") == "ok")
                 {
                     Debug.Log("Registration result : \n" + www.downloadHandler.text);
                     PlayerPrefs.SetString("email", RegistrationForm.Email);

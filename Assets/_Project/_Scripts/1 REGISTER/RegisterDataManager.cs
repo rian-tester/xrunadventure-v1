@@ -135,11 +135,11 @@ public class RegisterDataManager : Fields
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData); 
-                if (json.GetString("data") == "true")
+                if (json.GetString("serverData") == "true")
                 {
                     OnEmailAlreadyExist();
                 }
-                else if (json.GetString("data") == "false")
+                else if (json.GetString("serverData") == "false")
                 {
                     // if email not exist in server continue process
                     
@@ -185,7 +185,7 @@ public class RegisterDataManager : Fields
             }
             else
             {
-                // store registration data in static class
+                // store registration serverData in static class
                 RegistrationForm.Firstname = firstName.text.ToString();
                 RegistrationForm.Email = email.text.ToString();
                 RegistrationForm.Pin = passwordInputField.text.ToString();

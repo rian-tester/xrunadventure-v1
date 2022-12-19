@@ -68,12 +68,12 @@ public class LoginEmailDataManager : Fields
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "true")
+                if (json.GetString("serverData") == "true")
                 {
                     // if email exist please continue login
                     StartCoroutine(SendCodeToEmail());
                 }
-                else if (json.GetString("data") == "false")
+                else if (json.GetString("serverData") == "false")
                 {
                     // if email not exist please register first
                     if (OnEmailNotExist != null)
@@ -114,7 +114,7 @@ public class LoginEmailDataManager : Fields
                 // cahching request response
                 var rawData = www.downloadHandler.text;
                 JSON json = JSON.ParseString(rawData);
-                if (json.GetString("data") == "true")
+                if (json.GetString("serverData") == "true")
                 {
                     // if email exist please continue login
                     if (OnSendingCodeToEmail != null)
@@ -123,7 +123,7 @@ public class LoginEmailDataManager : Fields
                         OnSendingCodeToEmail();
                     }
                 }
-                else if (json.GetString("data") == "false")
+                else if (json.GetString("serverData") == "false")
                 {
                     Debug.Log("Server result are false");
                 }

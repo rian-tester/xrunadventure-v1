@@ -5,24 +5,35 @@ using ARLocation;
 using System;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
+using static OnlineMapsMapboxClipper;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
+using System.Collections.Specialized;
+using System.Web;
+using TMPro;
 
 public class MapController : MonoBehaviour
 {
     OnlineMapsMarker playerMarker;
+    Location thisPlayerLocation;
     [SerializeField] MultipleCoinPlacement coinPlacement;
     [SerializeField] Texture2D silverCoinTex;
     [SerializeField] GameController gameController;
+    [SerializeField] TMP_Text debugText;
 
-    AllCoinData thisAllCoinData = new AllCoinData();
-    Location thisPlayerLocation = new Location();
+    public AllCoinData thisAllCoinData;
+
+    // This event is notfying thepinch script for hand gesture
     public event Action OnMapSetup;
+    public event Action<string, string> OnCoinMarkerPopulated;
+
+    public bool isCoinPopulated;
 
     private void Start()
     {
-        // Create a new marker.
-        playerMarker = OnlineMapsMarkerManager.CreateItem(new Vector2(0, 0), null, "Player");
-
-        // Get instance of LocationService.
+        thisAllCoinData = new AllCoinData();
+        thisPlayerLocation = new Location();
+        
         OnlineMapsLocationService locationService = OnlineMapsLocationService.instance;
 
         if (locationService == null)
@@ -32,28 +43,14 @@ public class MapController : MonoBehaviour
             return;
         }
 
-        // Subscribe to the change Online Map location event.
         locationService.OnLocationChanged += OnLocationChanged;
-        gameController.OnPlayerLocationRetreived += SetupMap;
-        gameController.OnAllCoinDataRetreived += SetCoinData;
-    }
-    private void OnEnable()
-    {
-        //coinPlacement.OnServerDataChanged += SetupMap;
-        OnlineMaps.instance.OnChangeZoom += OnZoomChanged;
-        gameController.OnPlayerLocationRetreived += SetupMap;
-        gameController.OnAllCoinDataRetreived+= SetCoinData;
-    }
-    private void OnDisable()
-    {
-        //coinPlacement.OnServerDataChanged -= SetupMap;
-        OnlineMaps.instance.OnChangeZoom -= OnZoomChanged;
-        gameController.OnPlayerLocationRetreived -= SetupMap;
-        gameController.OnAllCoinDataRetreived -= SetCoinData;
+
+        ARLocationProvider.Instance.OnEnabled.AddListener(SubscribeToArManager);
+        if (OnlineMaps.instance != null) OnlineMaps.instance.OnChangeZoom += OnZoomChanged;
+
     }
 
-
-    public void SetupMap(Location playerLocation)
+    private void SetupMap(Location playerLocation)
     {
         thisPlayerLocation = playerLocation;
         OnlineMaps.instance.SetPositionAndZoom(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude,18 );
@@ -65,53 +62,9 @@ public class MapController : MonoBehaviour
         }
     }
 
-    public void SetCoinData(AllCoinData serverCoinData)
-    {
-        thisAllCoinData = serverCoinData;
-
-        PopulateCoinMarker();
-    }
-
-    public void CenterMap()
-    {
-        // TO DO
-        var playerLocation = thisPlayerLocation;
-        OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude, 18);
-    }
-
-    public void PopulateCoinMarker()
-    {
-        if (!CanPlaceCoinMarker(gameController.GetGameMode())) return;
-        if (thisAllCoinData.data.Count == 0) return;
-
-        int i = 0;
-
-        foreach(CoinData coin in thisAllCoinData.data)
-        {
-            if (i > 100) return ;
-            double latitude = double.Parse(coin.Lat); 
-            double longitude = double.Parse(coin.Lng);
-            OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, coin.Coin);
-            marker.scale = 0.015f;
-            i++;
-        }
-
-        OnlineMaps.instance.Redraw();
-    }
-
-    public void UnpopulateCoinMarker()
-    {
-        if (CanPlaceCoinMarker(gameController.GetGameMode())) return;
-        if (thisAllCoinData == null) return;
-
-        for (int i = 1; i < OnlineMapsMarkerManager.instance.items.Count; i++)
-        {
-            OnlineMapsMarkerManager.RemoveItemAt(i);
-        }
-    }
 
     // When the location has changed
-    void OnLocationChanged(Vector2 position)
+    private void OnLocationChanged(Vector2 position)
     {
         // Change the position of the marker.
         playerMarker.position = position;
@@ -120,26 +73,110 @@ public class MapController : MonoBehaviour
         OnlineMaps.instance.Redraw();
     }
 
-    void OnZoomChanged()
+    // redraw map based on zoom level
+    private void OnZoomChanged()
     {
-        // TO DO
         var playerLocation = thisPlayerLocation;
-        playerMarker.SetPosition(playerLocation.Longitude, playerLocation.Latitude);
+
+        if (playerLocation == null)
+        {
+            Location playerLocationFromAr = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+            thisPlayerLocation.Latitude = playerLocationFromAr.Latitude;
+            thisPlayerLocation.Longitude = playerLocationFromAr.Longitude;
+        }
+
+        if (playerMarker != null)
+        {
+            playerMarker.SetPosition(playerLocation.Longitude, playerLocation.Latitude);
+        }
+        
         // Redraw map.
         OnlineMaps.instance.Redraw();
     }
 
-    public OnlineMapsMarker GetPlayerMarker()
+    private void SubscribeToArManager(Location _)
     {
-        return playerMarker;
+        StartCoroutine(StartCallServer(_));
     }
 
-    bool CanPlaceCoinMarker(GameMode currentGameMode)
+    private IEnumerator StartCallServer(Location _)
     {
-        if (currentGameMode == GameMode.Map)
+        
+        Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+        thisPlayerLocation.Latitude = _.Latitude;
+        thisPlayerLocation.Longitude = _.Longitude;
+
+        // Call this function because has an event in it
+        SetupMap(thisPlayerLocation);
+
+        string endpoint = ServerDataStatic.GetGateway();
+        UriBuilder uriBuilder = new UriBuilder(endpoint);
+        uriBuilder.Port = -1;
+        NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["act"] = "app2000-01";
+        query["member"] = PlayerDataStatic.Member.ToString();
+        query["limit"] = PlayerDataStatic.SpawnAmount.ToString();
+        query["lat"] = thisPlayerLocation.Latitude.ToString();
+        query["lng"] = thisPlayerLocation.Longitude.ToString();
+        query["os"] = "3114";
+        uriBuilder.Query = query.ToString();
+        endpoint = uriBuilder.ToString();
+
+
+        // web request to server
+        using (UnityWebRequest www = UnityWebRequest.Get(endpoint))
         {
-            return true;
+            yield return www.SendWebRequest();
+
+            switch (www.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    debugText.text = www.error;
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    debugText.text = www.error;
+                    break;
+                case UnityWebRequest.Result.Success:
+                    var rawData = www.downloadHandler.text;
+                    thisAllCoinData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
+
+                    // Setup for player marker
+                    playerMarker = OnlineMapsMarkerManager.CreateItem(new Vector2(0, 0), null, "Player");
+
+                    // coin marker populating
+                    for (int i = 0; i < thisAllCoinData.data.Count; i++)
+                    {
+                        double latitude = double.Parse(thisAllCoinData.data[i].lat);
+                        double longitude = double.Parse(thisAllCoinData.data[i].lng);
+                        OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, thisAllCoinData.data[i].coin);
+                        marker.scale = 0.5f;
+
+                        if (debugText.gameObject.activeSelf)
+                        {
+                            debugText.text = $"Finish creating marker for coin number {i}";
+                        }
+                        
+                        OnlineMaps.instance.Redraw();
+                    }
+
+                    if (OnCoinMarkerPopulated != null)
+                    {
+                        OnCoinMarkerPopulated(thisAllCoinData.data[0].advertisement.ToString(), thisAllCoinData.data.Count.ToString());
+                    }
+
+                    isCoinPopulated = true;
+
+                    break;
+            }
         }
-        return false;
+
     }
+
+    // This called from UI Button
+    public void CenterMap()
+    {
+        var playerLocation = thisPlayerLocation;
+        OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude, 18);
+    }
+
 }

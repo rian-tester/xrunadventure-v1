@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class AllCoinData : MonoBehaviour
+public class AllCoinData 
 {
     public List<CoinData> data;
 }
