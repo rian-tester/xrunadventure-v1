@@ -50,50 +50,6 @@ public class MapController : MonoBehaviour
 
     }
 
-    private void SetupMap(Location playerLocation)
-    {
-        thisPlayerLocation = playerLocation;
-        OnlineMaps.instance.SetPositionAndZoom(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude,18 );
-
-
-        if (OnMapSetup != null)
-        {
-            OnMapSetup();
-        }
-    }
-
-
-    // When the location has changed
-    private void OnLocationChanged(Vector2 position)
-    {
-        // Change the position of the marker.
-        playerMarker.position = position;
-
-        // Redraw map.
-        OnlineMaps.instance.Redraw();
-    }
-
-    // redraw map based on zoom level
-    private void OnZoomChanged()
-    {
-        var playerLocation = thisPlayerLocation;
-
-        if (playerLocation == null)
-        {
-            Location playerLocationFromAr = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
-            thisPlayerLocation.Latitude = playerLocationFromAr.Latitude;
-            thisPlayerLocation.Longitude = playerLocationFromAr.Longitude;
-        }
-
-        if (playerMarker != null)
-        {
-            playerMarker.SetPosition(playerLocation.Longitude, playerLocation.Latitude);
-        }
-        
-        // Redraw map.
-        OnlineMaps.instance.Redraw();
-    }
-
     private void SubscribeToArManager(Location _)
     {
         StartCoroutine(StartCallServer(_));
@@ -101,7 +57,7 @@ public class MapController : MonoBehaviour
 
     private IEnumerator StartCallServer(Location _)
     {
-        
+
         Location playerLocation = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
         thisPlayerLocation.Latitude = _.Latitude;
         thisPlayerLocation.Longitude = _.Longitude;
@@ -141,7 +97,7 @@ public class MapController : MonoBehaviour
                     thisAllCoinData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
 
                     // Setup for player marker
-                    playerMarker = OnlineMapsMarkerManager.CreateItem(new Vector2(0, 0), null, "Player");
+                    playerMarker = OnlineMapsMarkerManager.CreateItem(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude, null, "Player");
 
                     // coin marker populating
                     for (int i = 0; i < thisAllCoinData.data.Count; i++)
@@ -155,7 +111,7 @@ public class MapController : MonoBehaviour
                         {
                             debugText.text = $"Finish creating marker for coin number {i}";
                         }
-                        
+
                         OnlineMaps.instance.Redraw();
                     }
 
@@ -171,6 +127,49 @@ public class MapController : MonoBehaviour
         }
 
     }
+
+    private void SetupMap(Location playerLocation)
+    {
+        OnlineMaps.instance.SetPositionAndZoom(playerLocation.Longitude, playerLocation.Latitude,18 );
+
+        if (OnMapSetup != null)
+        {
+            OnMapSetup();
+        }
+    }
+
+
+    // When the location has changed
+    private void OnLocationChanged(Vector2 position)
+    {
+        // Change the position of the marker.
+        playerMarker.position = position;
+
+        // Redraw map.
+        OnlineMaps.instance.Redraw();
+    }
+
+    // redraw map based on zoom level
+    private void OnZoomChanged()
+    {
+
+        if (thisPlayerLocation.Latitude == 0 || thisPlayerLocation.Longitude == 0)
+        {
+            Location playerLocationFromAr = ARLocationManager.Instance.GetLocationForWorldPosition(Camera.main.gameObject.transform.position);
+            thisPlayerLocation.Latitude = playerLocationFromAr.Latitude;
+            thisPlayerLocation.Longitude = playerLocationFromAr.Longitude;
+        }
+
+        if (playerMarker != null)
+        {
+            playerMarker.SetPosition(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude);
+        }
+        
+        // Redraw map.
+        OnlineMaps.instance.Redraw();
+    }
+
+   
 
     // This called from UI Button
     public void CenterMap()
