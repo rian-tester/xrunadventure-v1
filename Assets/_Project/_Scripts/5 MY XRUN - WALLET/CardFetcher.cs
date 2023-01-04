@@ -52,7 +52,7 @@ public class CardFetcher : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllCardData responseData = new AllCardData();
                 responseData = JsonConvert.DeserializeObject<AllCardData>(rawData);

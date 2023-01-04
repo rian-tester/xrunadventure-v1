@@ -6,9 +6,36 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using Leguar.TotalJSON;
+using Newtonsoft.Json;
 
 public class LoginEmailDataManager : Fields
 {
+    public class Response
+    {
+        public string data;
+        public string email;
+        public string member;
+        public string firstname;
+        public string lastname;
+        public string gender;
+        public string extrastr;
+        public string mobilecode;
+        public string country;
+        public string countrycode;
+        public string region;
+        public string ages;
+        public string desc;
+    }
+
+    public class ResponseTwo
+    {
+        public string data;
+        public string value;
+        public string email;
+    }
+
+    Response response;
+    ResponseTwo responseTwo;
 
     [SerializeField] TMP_InputField email;
     [SerializeField] Button okButton;
@@ -65,15 +92,15 @@ public class LoginEmailDataManager : Fields
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("serverData") == "true")
+                response = JsonConvert.DeserializeObject<Response>(rawData);
+                if (response.data == "true")
                 {
                     // if email exist please continue login
                     StartCoroutine(SendCodeToEmail());
                 }
-                else if (json.GetString("serverData") == "false")
+                else if (response.data == "false")
                 {
                     // if email not exist please register first
                     if (OnEmailNotExist != null)
@@ -111,10 +138,10 @@ public class LoginEmailDataManager : Fields
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("serverData") == "true")
+                responseTwo = JsonConvert.DeserializeObject<ResponseTwo>(rawData); 
+                if (responseTwo.data == "true")
                 {
                     // if email exist please continue login
                     if (OnSendingCodeToEmail != null)
@@ -123,7 +150,7 @@ public class LoginEmailDataManager : Fields
                         OnSendingCodeToEmail();
                     }
                 }
-                else if (json.GetString("serverData") == "false")
+                else if (responseTwo.data == "false")
                 {
                     Debug.Log("Server result are false");
                 }

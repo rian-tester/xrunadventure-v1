@@ -1552,7 +1552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8877647367171377458, guid: 0c12ae7504def764795c9f2897e43e8f, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8877647367171377458, guid: 0c12ae7504def764795c9f2897e43e8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6350,6 +6350,7 @@ MonoBehaviour:
   silverCoinTex: {fileID: 2800000, guid: 301c2806fdb48474486257bd058bec39, type: 3}
   gameController: {fileID: 899475325}
   debugText: {fileID: 4838311400591201196}
+  loadingText: {fileID: 355132844}
   thisAllCoinData:
     data: []
   isCoinPopulated: 0
@@ -7312,7 +7313,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 942218757, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
       propertyPath: m_Intensity
-      value: 0.85
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 942218758, guid: 8c1729a170b4cf44f829fbb55b650f8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10274,7 +10275,7 @@ Transform:
   - {fileID: 1073334244}
   - {fileID: 1708767318}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6359353609024326183
 GameObject:
@@ -10601,13 +10602,14 @@ MonoBehaviour:
     ShowObjectAfterThisManyUpdates: 1
   Prefab: {fileID: 0}
   DebugMode: 0
-  myPrefab: {fileID: 6402800580874949915, guid: ee824a14649a5824f84e4ac7d8991bfe, type: 3}
+  myPrefab: {fileID: 4216428022584058710, guid: 47a9160b12c15124fbf5d1b89d179b30, type: 3}
   arCamera: {fileID: 2909038072065850000}
   gameController: {fileID: 899475325}
   serverRawData:
     data: []
   isCoinPopulated: 0
-  debugText: {fileID: 0}
+  debugText: {fileID: 4838311400591201196}
+  loadingText: {fileID: 355132844}
 --- !u!114 &6359353610853185181
 MonoBehaviour:
   m_ObjectHideFlags: 0

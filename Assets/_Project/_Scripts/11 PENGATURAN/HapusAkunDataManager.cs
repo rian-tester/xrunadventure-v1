@@ -82,17 +82,17 @@ public class HapusAkunDataManager : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 serverRawData = JsonConvert.DeserializeObject<ServerDataStructure>(rawData);
                 if (serverRawData.data[0].count == "-1")
                 {
-                    Debug.Log($"Delete account failed, response code : {serverRawData.data[0].count}");
+                    Debug.Log($"Delete account failed, responseTwo code : {serverRawData.data[0].count}");
                     manager.ClosePrompt();
                 }
                 else
                 {
-                    Debug.Log($"Delete account succeed, response code : {serverRawData.data[0].count}");
+                    Debug.Log($"Delete account succeed, responseTwo code : {serverRawData.data[0].count}");
                     manager.ClosePrompt();
                 }
             }

@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Login
       objectReference: {fileID: 0}
+    - target: {fileID: 5033992902675511278, guid: 9f3cf0e5a9f1d664f8c4a54c63a13334, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5114123369679862469, guid: 9f3cf0e5a9f1d664f8c4a54c63a13334, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

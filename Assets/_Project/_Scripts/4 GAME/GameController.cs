@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             {
                 loadingPanel.SetActive(false);
                 gameMode = GameMode.Map;
+                ChangeGameMode(gameMode);
                 isTheGameStart = true;
             }
         }
@@ -99,7 +100,11 @@ public class GameController : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
                 if (debugText.gameObject.activeSelf)
                 {
-                    debugText.text = $"Amount of mapController Server Data : {mapController.thisAllCoinData.data.Count}";
+                    if (mapController.thisAllCoinData != null)
+                    {
+                        debugText.text = $"Amount of mapController Server Data : {mapController.thisAllCoinData.data.Count}";
+                    }
+                    
                     debugText.text = debugText.text + $"\n Amount om map marker : {OnlineMapsMarkerManager.instance.Count}";
                 }
                 

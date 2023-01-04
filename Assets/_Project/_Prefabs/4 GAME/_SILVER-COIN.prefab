@@ -29255,13 +29255,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3587137302189603308}
   - component: {fileID: 4359302383988502257}
-  - component: {fileID: 7111700464681514968}
   - component: {fileID: 7344410483724745385}
   - component: {fileID: 6534618153559987990}
   - component: {fileID: 1662037313044562039}
   - component: {fileID: 4012103069345801530}
   - component: {fileID: 4494704028158631166}
-  - component: {fileID: 5477887643211110387}
+  - component: {fileID: 8516535496284009316}
   m_Layer: 7
   m_Name: _SILVER-COIN
   m_TagString: Untagged
@@ -29300,41 +29299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6baa0d3a53855574b867da0a9e005b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisCoinData: {fileID: 0}
   yRotationSpeed: 1
   delayTime: 3.5
---- !u!114 &7111700464681514968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4216428022584058710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff0d57cf429ca4bbfc90a2cf5d341f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coin: 
-  cointype: 
-  amount: 
-  countlimit: 
-  lng: 
-  lat: 
-  distance: 
-  advertisement: 
-  brand: 
-  title: 
-  contents: 
-  currency: 
-  adColor1: 
-  adColor2: 
-  coins: 
-  adThumbnail: 
-  tracking: 
-  isBigcoin: 
-  symbol: 
-  exad: 
-  exco: 
 --- !u!135 &7344410483724745385
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -29501,7 +29468,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5477887643211110387
+--- !u!114 &8516535496284009316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29510,23 +29477,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 4216428022584058710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453d7de6a265b814bb05ccb39c493092, type: 3}
+  m_Script: {fileID: 11500000, guid: e770b61fe6291a64091fef9805b19500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RendererInfo:
-  - renderer: {fileID: 1184703205630344907}
-    lightmapIndex: 0
-    lightmapOffsetScale: {x: 0.19329605, y: 0.19329605, z: -0.03452329, w: -0.009268156}
-  m_Lightmaps:
-  - {fileID: 2800000, guid: 38d321e0a0998e54fb42365f983da907, type: 3}
-  m_LightmapsDir:
-  - {fileID: 2800000, guid: 0ef2cf04e0058dc44bcad1e52da23a42, type: 3}
-  m_ShadowMasks:
-  - {fileID: 0}
-  m_LightInfo:
-  - light: {fileID: 8526043865960078379}
-    lightmapBaketype: 4
-    mixedLightingMode: 2
+  coin: 
+  cointype: 
+  amount: 
+  countlimit: 
+  lng: 
+  lat: 
+  distance: 
+  advertisement: 
+  brand: 
+  title: 
+  contents: 
+  currency: 
+  adColor1: 
+  adColor2: 
+  coins: 
+  adThumbnail: 
+  tracking: 
+  isBigcoin: 
+  symbol: 
+  exad: 
+  exco: 
+  adThumbnail2: 
+  brandLogo: 
+  symbolimg: 
 --- !u!1 &4359794200933152622
 GameObject:
   m_ObjectHideFlags: 0

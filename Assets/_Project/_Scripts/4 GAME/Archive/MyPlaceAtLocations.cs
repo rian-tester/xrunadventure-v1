@@ -110,7 +110,7 @@ public class MyPlaceAtLocations : PlaceAtLocations
             else
             {
                 debugText.text = "succesfully calling raw serverData from server";
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 // store into costum class
                 serverRawData = new ServerCoinData();

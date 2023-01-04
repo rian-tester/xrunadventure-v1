@@ -56,4 +56,5 @@ public class RegisterVerificationManager : Panel
     {
         ShowPromptTextPanel(registrationFailed);
     }
+
 }

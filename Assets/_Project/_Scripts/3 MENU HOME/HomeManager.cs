@@ -76,7 +76,7 @@ public class HomeManager : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 PlayerData responseData = new PlayerData();
                 responseData = JsonConvert.DeserializeObject<PlayerData>(rawData);

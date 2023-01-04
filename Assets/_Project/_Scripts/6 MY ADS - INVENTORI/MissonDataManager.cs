@@ -44,7 +44,7 @@ public class MissonDataManager : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllMissionData responseData = new AllMissionData();
                 responseData = JsonConvert.DeserializeObject<AllMissionData>(rawData);

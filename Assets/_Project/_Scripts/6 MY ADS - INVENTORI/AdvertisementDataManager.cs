@@ -78,7 +78,7 @@ public class AdvertisementDataManager : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllAdvertisementData responseData = new AllAdvertisementData();
                 responseData = JsonConvert.DeserializeObject<AllAdvertisementData>(rawData);

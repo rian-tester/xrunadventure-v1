@@ -74,7 +74,7 @@ public class TransactionFetcher : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllTransactionData responseData = new AllTransactionData();
                 responseData = JsonConvert.DeserializeObject<AllTransactionData>(rawData);
@@ -117,7 +117,7 @@ public class TransactionFetcher : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllTransactionData responseData = new AllTransactionData();
                 responseData = JsonConvert.DeserializeObject<AllTransactionData>(rawData);
@@ -159,7 +159,7 @@ public class TransactionFetcher : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 AllTransactionData responseData = new AllTransactionData();
                 responseData = JsonConvert.DeserializeObject<AllTransactionData>(rawData);

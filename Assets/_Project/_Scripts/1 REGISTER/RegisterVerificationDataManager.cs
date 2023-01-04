@@ -1,26 +1,33 @@
 using System;
 using System.Collections;
-using System.IO;
-using System.Text;
 using System.Web;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using Leguar.TotalJSON;
 using AppsFlyerSDK;
-using static OnlineMapsGPXObject;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 
 public class RegisterVerificationDataManager : Fields
 {
-    public class RegisterVerificationCode
+    public class Response
+    {
+        public string data;
+        public string value;
+        public string mv;
+    }
+
+    public class ResponseTwo
     {
         public string data;
         public string value;
     }
+
+
+    Response response;
+    ResponseTwo responseTwo;
+
     [SerializeField] Button okButton;
     [SerializeField] TMP_InputField[] codeFields;
     [SerializeField] TMP_InputField codeFieldsOneLine;
@@ -81,16 +88,14 @@ public class RegisterVerificationDataManager : Fields
             }
             else
             {
-                // cahching request response
                 var rawData = www.downloadHandler.text;
-                RegisterVerificationCode serverResult = new RegisterVerificationCode();
-                serverResult = JsonConvert.DeserializeObject<RegisterVerificationCode>(rawData);
+                response = JsonConvert.DeserializeObject<Response>(rawData);
 
-                if ( serverResult.data == "false")
+                if ( response.data == "false")
                 {
                     OnCodeNotCorrect();
                 }
-                else if (serverResult.data == "login")
+                else if (response.data == "login")
                 {
                     StartCoroutine(RegisterNewMember());
                 }
@@ -136,26 +141,32 @@ public class RegisterVerificationDataManager : Fields
             }
             else
             {
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("serverData") == "ok")
+                responseTwo = JsonConvert.DeserializeObject<ResponseTwo>(rawData);
+
+                if (responseTwo.data == "ok")
                 {
                     Debug.Log("Registration result : \n" + www.downloadHandler.text);
                     PlayerPrefs.SetString("email", RegistrationForm.Email);
+                    
+                    
+                    if (AppsFlyer.instance != null)
+                    {
+                        // AF event
+                        Dictionary<string, string>
+                            eventValues = new Dictionary<string, string>();
+                        eventValues.Add("Email", RegistrationForm.Email);
+                        eventValues.Add("Phone Number", $"{RegistrationForm.Mobilecode} {RegistrationForm.Mobile}");
+                        eventValues.Add("Event time", DateTime.Now.ToString());
+                        AppsFlyer.sendEvent(AFInAppEvents.COMPLETE_REGISTRATION, eventValues);
+                    }
 
-                    // AF event
-                    Dictionary<string, string>
-                        eventValues = new Dictionary<string, string>();
-                    eventValues.Add("Email", RegistrationForm.Email);
-                    eventValues.Add("Phone Number", $"{RegistrationForm.Mobilecode} {RegistrationForm.Mobile}");
-                    eventValues.Add("Event time", DateTime.Now.ToString());
-                    AppsFlyer.sendEvent(AFInAppEvents.COMPLETE_REGISTRATION, eventValues);
+                    if (OnCodeCorrect != null)
+                    {
+                        OnCodeCorrect();
+                    }
 
-                    OnCodeCorrect();
-                }
-                else
-                {
-                    OnCodeNotCorrect();
                 }
             }
         }

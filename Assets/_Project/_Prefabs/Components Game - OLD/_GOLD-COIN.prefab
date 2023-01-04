@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8975418374716969590}
   - component: {fileID: 7702780023720170002}
-  - component: {fileID: 7466022018915430304}
   - component: {fileID: 97329020743652699}
   - component: {fileID: 8830734830513288139}
   - component: {fileID: 5339396385932497186}
@@ -129,46 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6baa0d3a53855574b867da0a9e005b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisCoinData: {fileID: 0}
   yRotationSpeed: 1
   delayTime: 3.5
-  blinking: 0
-  coinTaken: 0
---- !u!114 &7466022018915430304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630242523542227148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff0d57cf429ca4bbfc90a2cf5d341f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coin: 
-  cointype: 
-  amount: 
-  countlimit: 
-  lng: 
-  lat: 
-  distance: 
-  advertisement: 
-  brand: 
-  title: 
-  contents: 
-  currency: 
-  adColor1: 
-  adColor2: 
-  coins: 
-  adThumbnail: 
-  adThumbnail2: 
-  tracking: 
-  isBigcoin: 
-  symbol: 
-  brandLogo: 
-  symbolimg: 
-  exad: 
-  exco: 
 --- !u!95 &97329020743652699
 Animator:
   serializedVersion: 3

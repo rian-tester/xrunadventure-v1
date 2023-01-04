@@ -8,9 +8,29 @@ using System.Web;
 using Leguar.TotalJSON;
 using AppsFlyerSDK;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class LoginDataManager : Fields
 {
+    public class Response
+    {
+        public string data;
+        public string email;
+        public string member;
+        public string firstname;
+        public string lastname;
+        public string gender;
+        public string extrastr;
+        public string mobilecode;
+        public string country;
+        public string countrycode;
+        public string region;
+        public string ages;
+        public string desc;
+    }
+
+    Response response;
+
     [SerializeField] TMP_InputField email;
     [SerializeField] TMP_InputField password;
 
@@ -167,16 +187,16 @@ public class LoginDataManager : Fields
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("serverData") == "true")
+                response = JsonConvert.DeserializeObject<Response>(rawData);
+                if (response.data == "true")
                 {
                     // if email exist please continue login
                     OnEmailAlreadyExist();
                 }
-                else if (json.GetString("serverData") == "false")
+                else if (response.data == "false")
                 {
                     // if email not exist please register first
                      OnEmailNotExist();

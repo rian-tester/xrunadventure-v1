@@ -1,17 +1,39 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Web;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using Leguar.TotalJSON;
 
 public class RegisterDataManager : Fields
 {
-    
+    public class Response
+    {
+        public string data;
+        public string email;
+        public string member;
+        public string firstname;
+        public string lastname;
+        public string gender;
+        public string extrastr;
+        public string mobilecode;
+        public string country;
+        public string countrycode;
+        public string region;
+        public string ages;
+        public string desc;
+    }
+    public class ResponseTwo
+    {
+        public string data;
+        public string value;
+        public string email;
+    }
+
+    Response response;
+    ResponseTwo responseTwo;
 
     [SerializeField] TMP_InputField firstName;
     [SerializeField] TMP_InputField email;
@@ -132,14 +154,14 @@ public class RegisterDataManager : Fields
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData); 
-                if (json.GetString("serverData") == "true")
+                response = JsonConvert.DeserializeObject<Response>(rawData);    
+                if (response.data == "true")
                 {
                     OnEmailAlreadyExist();
                 }
-                else if (json.GetString("serverData") == "false")
+                else if (response.data == "false")
                 {
                     // if email not exist in server continue process
                     
@@ -185,26 +207,37 @@ public class RegisterDataManager : Fields
             }
             else
             {
-                // store registration serverData in static class
-                RegistrationForm.Firstname = firstName.text.ToString();
-                RegistrationForm.Email = email.text.ToString();
-                RegistrationForm.Pin = passwordInputField.text.ToString();
-                RegistrationForm.Mobilecode = phoneCode.text.ToString();
-                RegistrationForm.Mobile = phoneNumber.text.ToString();
-                RegistrationForm.Country = phoneCode.text.ToString();
-                RegistrationForm.Countrycode = "ID";
-                string fullRegionString = region.text.ToString();
-                int startIndex = fullRegionString.IndexOf("(");
-                int endIndex = fullRegionString.IndexOf(")");
-                string regionCode = fullRegionString.Substring(startIndex + 1, endIndex - startIndex - 1);
-                RegistrationForm.Region = regionCode;
-                RegistrationForm.Age = ageValue; //Int16.Parse(ageValue);
-                RegistrationForm.Gender = sexValue; //Int16.Parse(sexValue);
+                var rawData = www.downloadHandler.text;
+                responseTwo = JsonConvert.DeserializeObject<ResponseTwo>(rawData);
+                if (responseTwo.data == "true")
+                {
+                    // store registration serverData in static class
+                    RegistrationForm.Firstname = firstName.text.ToString();
+                    RegistrationForm.Email = email.text.ToString();
+                    RegistrationForm.Pin = passwordInputField.text.ToString();
+                    RegistrationForm.Mobilecode = phoneCode.text.ToString();
+                    RegistrationForm.Mobile = phoneNumber.text.ToString();
+                    RegistrationForm.Country = phoneCode.text.ToString();
+                    RegistrationForm.Countrycode = "ID";
+                    string fullRegionString = region.text.ToString();
+                    int startIndex = fullRegionString.IndexOf("(");
+                    int endIndex = fullRegionString.IndexOf(")");
+                    string regionCode = fullRegionString.Substring(startIndex + 1, endIndex - startIndex - 1);
+                    RegistrationForm.Region = regionCode;
+                    RegistrationForm.Age = ageValue; //Int16.Parse(ageValue);
+                    RegistrationForm.Gender = sexValue; //Int16.Parse(sexValue);
 
-                // for code LoginCodeCounter.cs
-                PlayerPrefs.SetString("email", RegistrationForm.Email);
+                    // for code LoginCodeCounter.cs
+                    PlayerPrefs.SetString("email", RegistrationForm.Email);
 
-                OnSendingCodeToEmail();
+                    OnSendingCodeToEmail();
+                }
+                else
+                {
+                    registerButton.interactable = true;
+                }
+
+                
             }
 
             // button sign up interactable

@@ -17,7 +17,7 @@ public class ExchangeDataManager : MonoBehaviour
     string exchangeRate = "0";
     string toCurrency = "";
 
-    public event Action OnExchangeProcessFinish;
+    public event Action OnExchangeProcessFinish; // not applied yet
 
     private void Start()
     {

@@ -119,7 +119,7 @@ public class Coin : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 Debug.Log(rawData);
 

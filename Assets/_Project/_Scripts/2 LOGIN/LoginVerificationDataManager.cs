@@ -8,10 +8,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using Leguar.TotalJSON;
-
+using Newtonsoft.Json;
 
 public class LoginVerificationDataManager : Fields
 {
+    public class Response
+    {
+        public string data;
+        public string value;
+        public string mv;
+    }
+    
+    Response response;
+
     [SerializeField] Button okButton;
     [SerializeField] TMP_InputField[] codeFields;
     [SerializeField] TMP_InputField codeFieldsOneLine;
@@ -73,17 +82,17 @@ public class LoginVerificationDataManager : Fields
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
-                JSON json = JSON.ParseString(rawData);
-                if (json.GetString("serverData") == "login")
+                response = JsonConvert.DeserializeObject<Response>(rawData);
+                if (response.data == "login")
                 {
                     if (OnCodeCorrect != null)
                     {
                         OnCodeCorrect();
                     }
                 }
-                else if (json.GetString("serverData") == "false")
+                else if (response.data == "false")
                 {
                     if (OnCodeNotCorrect != null)
                     {

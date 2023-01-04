@@ -20,6 +20,7 @@ public class MapController : MonoBehaviour
     [SerializeField] Texture2D silverCoinTex;
     [SerializeField] GameController gameController;
     [SerializeField] TMP_Text debugText;
+    [SerializeField] TMP_Text loadingText;
 
     public AllCoinData thisAllCoinData;
 
@@ -93,34 +94,45 @@ public class MapController : MonoBehaviour
                     debugText.text = www.error;
                     break;
                 case UnityWebRequest.Result.Success:
+
                     var rawData = www.downloadHandler.text;
                     thisAllCoinData = JsonConvert.DeserializeObject<AllCoinData>(rawData);
 
                     // Setup for player marker
                     playerMarker = OnlineMapsMarkerManager.CreateItem(thisPlayerLocation.Longitude, thisPlayerLocation.Latitude, null, "Player");
 
-                    // coin marker populating
-                    for (int i = 0; i < thisAllCoinData.data.Count; i++)
+                    if (thisAllCoinData.data.Count > 0)
                     {
-                        double latitude = double.Parse(thisAllCoinData.data[i].lat);
-                        double longitude = double.Parse(thisAllCoinData.data[i].lng);
-                        OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, thisAllCoinData.data[i].coin);
-                        marker.scale = 0.5f;
-
-                        if (debugText.gameObject.activeSelf)
+                        // coin marker populating
+                        for (int i = 0; i < thisAllCoinData.data.Count; i++)
                         {
-                            debugText.text = $"Finish creating marker for coin number {i}";
+                            double latitude = double.Parse(thisAllCoinData.data[i].lat);
+                            double longitude = double.Parse(thisAllCoinData.data[i].lng);
+                            OnlineMapsMarker marker = OnlineMapsMarkerManager.CreateItem(longitude, latitude, silverCoinTex, thisAllCoinData.data[i].coin);
+                            marker.scale = 0.5f;
+
+                            if (debugText.gameObject.activeSelf)
+                            {
+                                debugText.text = $"Finish creating marker for coin number {i}";
+                            }
+
+                            OnlineMaps.instance.Redraw();
                         }
 
-                        OnlineMaps.instance.Redraw();
-                    }
+                        if (OnCoinMarkerPopulated != null)
+                        {
+                            OnCoinMarkerPopulated(thisAllCoinData.data[0].advertisement.ToString(), thisAllCoinData.data.Count.ToString());
+                        }
 
-                    if (OnCoinMarkerPopulated != null)
+                        isCoinPopulated = true;
+
+                    }
+                    else if (thisAllCoinData.data.Count == 0 || thisAllCoinData.data.Count < 0)
                     {
-                        OnCoinMarkerPopulated(thisAllCoinData.data[0].advertisement.ToString(), thisAllCoinData.data.Count.ToString());
+                        loadingText.text = "We're very sorry. Either your device is not compatible to retrieve our data or our service is not available in your region yet";
+                        isCoinPopulated = true;
                     }
 
-                    isCoinPopulated = true;
 
                     break;
             }

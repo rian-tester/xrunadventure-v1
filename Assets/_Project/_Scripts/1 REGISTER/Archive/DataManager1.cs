@@ -112,7 +112,7 @@ public class DataManager1 : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 RegisterResponseData responseData = new RegisterResponseData();
                 responseData = JsonConvert.DeserializeObject<RegisterResponseData>(rawData);
@@ -222,7 +222,7 @@ public class DataManager1 : MonoBehaviour
             }
             else
             {
-                // cahching request response
+                // cahching request responseTwo
                 var rawData = www.downloadHandler.text;
                 RegisterResponseData responseData = new RegisterResponseData();
                 responseData = JsonConvert.DeserializeObject<RegisterResponseData>(rawData);

@@ -14,7 +14,7 @@ public class SendDataManager : MonoBehaviour
     [SerializeField] TMP_InputField sendMemo;
     [SerializeField] TMP_Text activeCardBalance;
 
-    public event Action OnSendProcessFinish;
+    public event Action OnSendProcessFinish; // not applied yet
 
     private void Start()
     {

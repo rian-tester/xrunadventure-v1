@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7806718907630376504}
   - component: {fileID: 5138374908704727994}
   - component: {fileID: 7015239665215393726}
-  - component: {fileID: 4816496832548528926}
   - component: {fileID: 2691974664479112541}
   m_Layer: 0
   m_Name: CoinPrefabEarly
@@ -49,10 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6baa0d3a53855574b867da0a9e005b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisCoinData: {fileID: 0}
   yRotationSpeed: 1
   delayTime: 3.5
-  blinking: 0
-  coinTaken: 0
 --- !u!135 &5138374908704727994
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -85,42 +83,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4816496832548528926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026213014363763588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff0d57cf429ca4bbfc90a2cf5d341f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coin: 
-  cointype: 
-  amount: 
-  countlimit: 
-  lng: 
-  lat: 
-  distance: 
-  advertisement: 
-  brand: 
-  title: 
-  contents: 
-  currency: 
-  adColor1: 
-  adColor2: 
-  coins: 
-  adThumbnail: 
-  adThumbnail2: 
-  tracking: 
-  isBigcoin: 
-  symbol: 
-  brandLogo: 
-  symbolimg: 
-  exad: 
-  exco: 
 --- !u!54 &2691974664479112541
 Rigidbody:
   m_ObjectHideFlags: 0
