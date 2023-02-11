@@ -50,7 +50,9 @@ public class MultipleCoinPlacement : PlaceAtLocations
         UriBuilder uriBuilder = new UriBuilder(endpoint);
         uriBuilder.Port = -1;
         NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["act"] = "app2000-01";
+        //server down
+        //query["act"] = "app2000-01";
+        query["act"] = "app2000-02";
         query["member"] = PlayerDataStatic.Member.ToString();
         query["limit"] = PlayerDataStatic.SpawnAmount.ToString();
         //query["limit"] = 10.ToString();
