@@ -59,7 +59,7 @@ public class RegionDataCollection
 {
     public List<RegionData> data;
 }
-public class RegionData
+public struct RegionData
 {
     public string RegionCode { get; set; }
     public string RegionName { get; set; }

@@ -12,6 +12,7 @@ public class ExchangeDataManager : MonoBehaviour
     [SerializeField] TMP_InputField exchangeAmount;
     [SerializeField] TMP_InputField exchangeAddress;
     [SerializeField] TMP_Text currencyTitleText;
+    [SerializeField] TMP_Text currencyDescriptionText;
     [SerializeField] bool isFixedRate = true;
     public List<Toggle> availableCurrency = new List<Toggle>();
     string exchangeRate = "0";
@@ -35,6 +36,7 @@ public class ExchangeDataManager : MonoBehaviour
         }
 
         currencyTitleText.text = $"{ActiveCardDataStatic.Symbol} yang akan ditukar";
+        currencyDescriptionText.text = "Setiap penukaran akan dikenakan\r\nbiaya gas fee sekitar 0.124%";
         SwitchCurrency();
     }
 
@@ -50,6 +52,7 @@ public class ExchangeDataManager : MonoBehaviour
             {
                 var text = currency.GetComponentInChildren<TMP_Text>();
                 toCurrency = text.text;
+                GetExchangeRate(isFixedRate);
             }
         }
     }
@@ -69,22 +72,28 @@ public class ExchangeDataManager : MonoBehaviour
             // if symbol is MATIC, rate = amount * (450/1230.0)
 
             string walletSymbol = toCurrency;
+            double percentage = 0.0;
             if (walletSymbol == "ETH")
             {
-                rate = double.Parse(exchangeAmount.text) * (450 / 2139400.0);
+                percentage = (450 / 2139400.0);
+                rate = double.Parse(exchangeAmount.text) * percentage;
             }
             else if (walletSymbol == "TRX")
             {
-                rate = double.Parse(exchangeAmount.text) * (450 / 86.0);
+                percentage = (450 / 86.0);
+                rate = double.Parse(exchangeAmount.text) * percentage;
             }
             else if (walletSymbol == "MATIC")
             {
-                rate = double.Parse(exchangeAmount.text) * (450 / 1230.0);
+                percentage = (450 / 1230.0);
+                rate = double.Parse(exchangeAmount.text) * percentage;
             }
             else
             {
-                rate = 0;
+                rate = rate = double.Parse(exchangeAmount.text) * 0.00124;
             }
+
+            currencyDescriptionText.text = $"Setiap penukaran akan dikenakan\r\nbiaya gas fee sekitar {percentage}";
         }
         Debug.Log(rate.ToString());
         return rate;

@@ -79,6 +79,7 @@ public class SendDataManager : MonoBehaviour
 
                 if (OnSendProcessFinish != null)
                 {
+                    // for any class that need to be notified about transaction status
                     OnSendProcessFinish();
                 }
             }

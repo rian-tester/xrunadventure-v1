@@ -1030,7 +1030,8 @@ MonoBehaviour:
   exchangeAmount: {fileID: 1339610159}
   exchangeAddress: {fileID: 1398258007}
   currencyTitleText: {fileID: 1742737131}
-  isFixedRate: 1
+  currencyDescriptionText: {fileID: 1768522812}
+  isFixedRate: 0
   availableCurrency: []
 --- !u!4 &980773272
 Transform:
